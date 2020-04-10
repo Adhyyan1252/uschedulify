@@ -1,0 +1,1 @@
+alert("Username is already taken");

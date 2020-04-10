@@ -10,6 +10,7 @@
     <header>
         <h1> <span class="highlight">USC</span> Schedule Creator</h1>
     </header>
+    <script src="${message}"></script>
     <section id="login/signup">
         <div class="container">
             <div class="box">
@@ -18,20 +19,19 @@
                     <input type="text" placeholder="username" name="lusername"><br>
                     <input type="password" placeholder="password" name="lpassword"><br>
                     <button type="submit">login</button>
-                    <p>${message}</p>
-                    
+             
                 </form>
             </div>
             <div class="box">
-                <form name="signup" action="POST" action="">
+                <form name="signup" method="POST" action="signup">
                     <h3>Sign Up</h3>
                     <input type="text" placeholder="username" name="susername"><br>
                     <input type="password" placeholder="password" name="spassword"><br>
                     <input type="password" placeholder="confirm password" name="scpassword"><br>
-                    <button type="submit">sign up</button>
+                    <button type="submit">sign up</button>                
                 </form>
             </div>
-        <div>
+        </div>
     </section>
 </body>
 </html>
