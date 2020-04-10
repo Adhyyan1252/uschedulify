@@ -13,11 +13,13 @@
     <section id="login/signup">
         <div class="container">
             <div class="box">
-                <form name="login" method="GET" action="login">
+                <form name="login" method="POST" action="login">
                     <h3>Login</h3>
                     <input type="text" placeholder="username" name="lusername"><br>
                     <input type="password" placeholder="password" name="lpassword"><br>
                     <button type="submit">login</button>
+                    <p>${message}</p>
+                    
                 </form>
             </div>
             <div class="box">

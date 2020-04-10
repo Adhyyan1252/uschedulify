@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
@@ -20,12 +21,18 @@ import javax.servlet.http.HttpServletResponse;
     )
 public class HelloServlet extends HttpServlet {
 
+//	@Override
+//	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//		doGet(req, resp);
+//	}
+	
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
     	
     	String userName = req.getParameter("lusername");
-    	int passHash = Integer.parseInt(req.getParameter("lpassword"));
+    	String passHash = req.getParameter("lpassword");
+    	
     	
     	
     	try {
@@ -36,26 +43,32 @@ public class HelloServlet extends HttpServlet {
 			conn = DriverManager.getConnection("jdbc:mysql://us-cdbr-iron-east-01.cleardb.net:3306/heroku_15f10f75c7431e6?user=b5a203584b9d69&password=205de108&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC"); // URI - Uniform Resource Identifier
 			st = conn.createStatement();
 			rs = st.executeQuery("SELECT * FROM auth WHERE userName ='" + userName + "'");
-			
 			rs.next();
 			
-			if(passHash != rs.getInt("passHash")) {
+			if(!passHash.equals(rs.getString("passHash"))) {
 				throw new SQLException();
 			}
-			else {
-				ServletOutputStream out = resp.getOutputStream();
-		        out.write("Authorized login".getBytes());
-		        out.flush();
-		        out.close();
-			}
-			
+
+			ServletOutputStream out = resp.getOutputStream();
+	        out.write("Authorized login".getBytes());
+	        out.flush();
+	        out.close();
+
 			
     	} catch (SQLException sqle) {
 			System.err.println("sqle: " + sqle.getMessage());
-			ServletOutputStream out = resp.getOutputStream();
-	        out.write("failed login".getBytes());
-	        out.flush();
-	        out.close();
+			
+			req.setAttribute("message", "login failed");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+            dispatcher.forward(req, resp);
+			
+//			ServletOutputStream out = resp.getOutputStream();
+//			byte[] fileContent = Files.readAllBytes(Paths.get("src/main/webapp/index.html"));
+//	        out.write(fileContent);
+//	        out.flush();
+//	        out.close();			
+//			resp.sendRedirect("src/main/webapp/index.html");
+//			resp.sendRed
 		}
     	
     	
