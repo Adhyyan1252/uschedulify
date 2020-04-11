@@ -26,4 +26,11 @@ public class Schedule {
 		return ret;
 	}
 	
+	public boolean allClassesOpen() {
+		for(Section s: sections) {
+			if(s.isOpen() == false) return false;
+		}
+		return true;
+	}
+	
 }

@@ -29,5 +29,7 @@ public class Section {
 		return null;
 	}
 	
-	
+	public boolean isOpen() {
+		return currentRegistered < maxRegistered;
+	}
 }
