@@ -5,6 +5,7 @@ import java.util.ArrayList;
 //A Schedule is a list of sections
 
 public class Schedule {
+	public int userID;
 	public int scheduleID;
 	public ArrayList<Section> sections;
 	

@@ -38,8 +38,47 @@ public class DatabaseConnector {
 	
 	//[PRIMARY FUNCTION: SET SCHEDULE IN MYSQL DATABASE]
 	public void setSchedule(Schedule schedule) {
+		//[SETUP]
 		if (connection == null) { connectToDatabase(); }
-		
+		try {
+			//[UPDATING SECTIONS]
+			for (int i = 0; i < schedule.sections.size(); i++) {
+				PreparedStatement prepst = connection.prepareStatement("SELECT * FROM sections where sectionID = ?");
+				prepst.setString(1, schedule.sections.get(i).sectionID);
+				ResultSet rs = prepst.executeQuery();
+				if (!(rs.next())) {
+					PreparedStatement toinsert = null;
+					toinsert = connection.prepareStatement("INSERT INTO sections (sectionID) VALUES (?)");
+					toinsert.setString(1, schedule.sections.get(i).sectionID);
+					toinsert.executeUpdate();
+				} 
+			}
+			
+			//[END UPDATING SECTIONS]
+			
+			PreparedStatement ps = null;
+			ps = connection.prepareStatement("INSERT INTO schedules (scheduleID, userID, dateCreated, dateschedule_name) VALUES (?,?, NULL, ?)");
+			ps.setInt(1, schedule.userID);
+			ps.setInt(2, schedule.scheduleID);
+			
+			//[TEMP FIX]
+			ps.setString(3, "");
+			//[END TEMP FIX]
+			ps.executeUpdate();
+			//[NOW ADDING TO LINKER]
+			for (int i = 0; i < schedule.sections.size(); i++) {
+				
+				PreparedStatement preps = connection.prepareStatement("INSERT INTO schedule_section_link (scheduleID, sectionID) VALUES (?,?)");
+				ps.setInt(1, schedule.scheduleID);
+				ps.setString(2, schedule.sections.get(i).sectionID);
+				preps.executeUpdate();
+			}
+			
+			//[MAYBE UPDATE SECTION TABLE AS WELL IF DETERMINED THAT IT WILL BE EMPTY UNTIL STUDENTS ADD SCHEDULES]
+			
+		} catch (Exception e) {
+			e.printStackTrace(); 
+		}
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -112,7 +151,7 @@ public class DatabaseConnector {
 		return schedule;
 	}
 		
-	public void deleteSchedule() {
+	public void deleteSchedule(int scheduleID) {
 		
 	}
 }
