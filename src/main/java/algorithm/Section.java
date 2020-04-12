@@ -9,14 +9,15 @@ public class Section {
 	public String sectionID;
 	public ArrayList<TimeInterval> timing;
 	
-	int currentRegistered, maxRegistered;
+	public int currentRegistered, maxRegistered;
 	
-	public String unit; //reference to unit
+	public Course course; //reference to unit
 	public String type;
 	public String instructor, location;
+	public String classname;
 	
 	public String toString() {
-		return unit.toString() + ": " + type + ":" + sectionID;
+		return course.toString() + ": " + type + ":" + sectionID;
 	}
 	
 	//returns a TimeInterval if there is a timing on that day
