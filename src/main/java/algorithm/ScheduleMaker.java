@@ -7,14 +7,14 @@ import java.util.ArrayList;
 
 public class ScheduleMaker {
 	
-	private ArrayList<Unit> units;
+	private ArrayList<Course> courses;
 	
 	public ScheduleMaker() {
 		
 	}
 	
-	public void addUnit(Unit u) {
-		units.add(u);
+	public void addUnit(Course u) {
+		courses.add(u);
 	}
 	
 	//returns a schedule based on the classes added

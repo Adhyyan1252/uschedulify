@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 //A Unit is for eg. CS201. 
 
-public class Unit {
+public class Course {
 
 	public String major, number;
 	public ArrayList<Section> sections;
