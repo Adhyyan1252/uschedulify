@@ -48,10 +48,7 @@ public class SignupServlet extends HttpServlet {
 			ps.setString(2, passHash);
 			int addedrows = ps.executeUpdate();
 			System.out.println(addedrows);
-			RequestDispatcher dispatcher = req.getRequestDispatcher("home.jsp");
-            dispatcher.forward(req, resp);
-
-
+			resp.sendRedirect("/");
 			
     	} catch (SQLException sqle) {
     		System.err.println("sqle: " + sqle.getMessage());

@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1> <span class="highlight">USC</span> Schedule Creator</h1>
+        <h1> <span class="highlight">usc</span>hedulify</h1>
     </header>
     <script src="${message}"></script>
     <section id="login/signup">

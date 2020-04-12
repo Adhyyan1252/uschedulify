@@ -19,20 +19,19 @@ import javax.servlet.http.HttpSession;
         name = "MyServlet", 
         urlPatterns = {"/login"}
     )
-public class HelloServlet extends HttpServlet {
-
-//	@Override
-//	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		doGet(req, resp);
-//	}
+public class LoginServlet extends HttpServlet {
 	
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    protected void service(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
     	
     	String userName = req.getParameter("lusername");
     	String passHash = req.getParameter("lpassword");
     	
+    	if(userName == null) {
+    		resp.sendRedirect("/");
+    		return;
+    	}
     	
     	
     	try {
@@ -50,9 +49,13 @@ public class HelloServlet extends HttpServlet {
 				throw new SQLException();
 			}
 			
+			int userID = rs.getInt("userID");
+			
 			HttpSession session = req.getSession();
-            session.setAttribute("user", rs.getInt("userID"));
-			RequestDispatcher dispatcher = req.getRequestDispatcher("home.jsp");
+			System.out.println("setting userID to " + userID);
+            session.setAttribute("userID", userID);
+            session.setAttribute("userName", userName);
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/home");
             dispatcher.forward(req, resp);
 
 			
@@ -63,13 +66,6 @@ public class HelloServlet extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
             dispatcher.forward(req, resp);
 			
-//			ServletOutputStream out = resp.getOutputStream();
-//			byte[] fileContent = Files.readAllBytes(Paths.get("src/main/webapp/index.html"));
-//	        out.write(fileContent);
-//	        out.flush();
-//	        out.close();			
-//			resp.sendRedirect("src/main/webapp/index.html");
-//			resp.sendRed
 		}
     }
     
