@@ -9,9 +9,9 @@ public class Section {
 	public String sectionID;
 	public ArrayList<TimeInterval> timing;
 	
-	int currentRegistered, maxRegistered;
+	public int currentRegistered, maxRegistered;
 	
-	public String unit; //reference to unit
+	public String classname; //reference to unit
 	public String type;
 	public String instructor, location;
 	public Section(String SID, ArrayList<TimeInterval> time, int cr, int mr, String t, String in, String lo) {
@@ -23,8 +23,10 @@ public class Section {
 		instructor = in;
 		location = lo;
 	}
+	
+	public Section () {}
 	public String toString() {
-		return unit.toString() + ": " + type + ":" + sectionID;
+		return classname.toString() + ": " + type + ":" + sectionID;
 	}
 	
 	//returns a TimeInterval if there is a timing on that day

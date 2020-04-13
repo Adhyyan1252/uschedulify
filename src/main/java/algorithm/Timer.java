@@ -11,6 +11,10 @@ public class Timer {
 		min = mi;
 	}
 	
+	public Timer() {
+		// TODO Auto-generated constructor stub
+	}
+
 	int convertMin() {
 		return min + 60*hour;
 	}
@@ -21,7 +25,7 @@ public class Timer {
 			return "TBA";
 		}
 		else {
-			return day + ", " + hour + ", " + min;
+			return day + ": " + hour + ": " + min;
 		}
 	}
 	

@@ -5,21 +5,6 @@ import algorithm.*;
 import algorithm.Timer;
 import java.util.*;
 
-/*
- * public class Section {
-
-	public String sectionID;
-	public ArrayList<TimeInterval> timing;
-	
-	int currentRegistered, maxRegistered;
-	
-	public String unit; //reference to unit
-	public String type;
-	public String instructor, location;
-
-
-}
- */
 public class DatabaseConnector {
 	
 	static Connection connection = null;
@@ -38,8 +23,9 @@ public class DatabaseConnector {
 	
 	//[PRIMARY FUNCTION: SET SCHEDULE IN MYSQL DATABASE]
 	public void setSchedule(Schedule schedule) {
-		//[SETUP]
+		//[SETUP & ENSURING CONNECTION EXISTS]
 		if (connection == null) { connectToDatabase(); }
+		
 		try {
 			//[UPDATING SECTIONS]
 			for (int i = 0; i < schedule.sections.size(); i++) {
@@ -48,18 +34,30 @@ public class DatabaseConnector {
 				ResultSet rs = prepst.executeQuery();
 				if (!(rs.next())) {
 					PreparedStatement toinsert = null;
-					toinsert = connection.prepareStatement("INSERT INTO sections (sectionID) VALUES (?)");
+					toinsert = connection.prepareStatement("INSERT INTO sections (sectionID, classID, type, startTime, endTime, days, current_registered, capacity, instructor, location) VALUES (?, NULL, ?, ?, ?, ?, ?, ?, ?, ?)");
 					toinsert.setString(1, schedule.sections.get(i).sectionID);
+					toinsert.setString(2, schedule.sections.get(i).type);
+					toinsert.setString(3, schedule.sections.get(i).timing.get(0).start.toString());
+					toinsert.setString(4, schedule.sections.get(i).timing.get(0).end.toString());
+
+					String alldays = "";
+					for (int j = 0; j < schedule.sections.get(i).timing.size(); j++) {
+						alldays += schedule.sections.get(i).timing.get(j).start.day;
+					}
+					toinsert.setString(5, alldays);
+					toinsert.setInt(6, schedule.sections.get(i).currentRegistered);
+					toinsert.setInt(7, schedule.sections.get(i).maxRegistered);
+					toinsert.setString(8, schedule.sections.get(i).instructor);
+					toinsert.setString(9, schedule.sections.get(i).location);	
 					toinsert.executeUpdate();
 				} 
 			}
 			
 			//[END UPDATING SECTIONS]
-			
 			PreparedStatement ps = null;
-			ps = connection.prepareStatement("INSERT INTO schedules (scheduleID, userID, dateCreated, dateschedule_name) VALUES (?,?, NULL, ?)");
-			ps.setInt(1, schedule.userID);
-			ps.setInt(2, schedule.scheduleID);
+			ps = connection.prepareStatement("INSERT INTO schedules (scheduleID, userID, dateCreated, schedule_name) VALUES (?,?, NULL, ?)");
+			ps.setInt(1, schedule.scheduleID);
+			ps.setInt(2, schedule.userID);
 			
 			//[TEMP FIX]
 			ps.setString(3, "");
@@ -73,25 +71,24 @@ public class DatabaseConnector {
 				ps.setString(2, schedule.sections.get(i).sectionID);
 				preps.executeUpdate();
 			}
-			
-			//[MAYBE UPDATE SECTION TABLE AS WELL IF DETERMINED THAT IT WILL BE EMPTY UNTIL STUDENTS ADD SCHEDULES]
-			
 		} catch (Exception e) {
 			e.printStackTrace(); 
 		}
 	}
 	
+	//[PRIMARY FUNCTION: RETURN NEW JAVA SCHEDULE OBJECT]
 	@SuppressWarnings("deprecation")
-	public Schedule retrieveSchedule(int scheduleID) {
+	public Schedule retrieveSchedule(int scheduleID, int userID) {
 		//[SET-UP]
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Schedule schedule = new Schedule();
-		if (connection == null) { connectToDatabase(); }
 		ArrayList<Section> sections = new ArrayList<Section>();
 		
-		try {
-			
+		//[MAKE SURE NO UNNECCESARY COMMITS]
+		if (connection == null) { connectToDatabase(); }
+		
+		try {	
 			ps = connection.prepareStatement("SELECT * FROM schedule_section_link WHERE scheduleID=?");
 			ps.setInt(1, scheduleID);
 			rs = ps.executeQuery();
@@ -106,14 +103,14 @@ public class DatabaseConnector {
 				while (innerrs.next()) {
 					Section section = new Section();
 					
-					//[SETTING DATA MEMBERS]
+					//[SETTING THE DATA MEMBERS OF THE OBJECT TO BE RETURNED]
 					section.sectionID = secID;
 					section.currentRegistered = innerrs.getInt("current_registered");
 					section.maxRegistered = innerrs.getInt("capacity");
 					
-					//[TEMP FIX]
+					//[TEMPORARY FIX]
 					section.classname = null;
-					//[TEMP FIX]
+					//[END TEMPORARY FIX]
 			
 					section.type = innerrs.getString("type");
 					section.instructor = innerrs.getString("instructor");
@@ -136,6 +133,7 @@ public class DatabaseConnector {
 						startTime.min = start_time.getMinutes();
 						endTime.hour = end_time.getHours();
 						endTime.min = end_time.getMinutes();
+						
 						newTimeInterval.start = startTime;
 						newTimeInterval.end = endTime;
 						timings.add(newTimeInterval);
@@ -148,10 +146,12 @@ public class DatabaseConnector {
 		} catch (Exception e) { e.printStackTrace(); }
 		schedule.sections = sections;
 		schedule.scheduleID = scheduleID;
+		schedule.userID = userID;
 		return schedule;
 	}
 		
 	public void deleteSchedule(int scheduleID) {
 		
 	}
+
 }

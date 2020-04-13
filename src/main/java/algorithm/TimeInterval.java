@@ -11,6 +11,8 @@ public class TimeInterval {
 	public TimeInterval(java.sql.Time sta, java.sql.Time en) {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public TimeInterval() {}
 
 	public static boolean isIntersecting(TimeInterval a, TimeInterval b) {
 		if(a.start.day != b.start.day) { //on different days
