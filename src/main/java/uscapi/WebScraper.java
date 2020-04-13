@@ -20,6 +20,16 @@ public class WebScraper {
 	{
 		
 	}
+	public static void main(String[] args) {
+		Course a = null;
+		try {
+			a = AddCourse("CSCI", "103");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(a.detailedInfo());
+	}
 	
 	public static Course AddCourse(String major, String number) throws Exception {
 		ArrayList<Section> sect = new ArrayList<Section>();

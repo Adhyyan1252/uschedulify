@@ -22,6 +22,7 @@ public class Section {
 		type = t;
 		instructor = in;
 		location = lo;
+		classname = "";
 	}
 	public String toString() {
 		return classname.toString() + ": " + type + ":" + sectionID;
