@@ -24,7 +24,10 @@ public class Section {
 		location = lo;
 	}
 	
-	public Section () {}
+	public Section() {
+		classname = "";
+	}
+
 	public String toString() {
 		return classname.toString() + ": " + type + ":" + sectionID;
 	}
@@ -44,10 +47,10 @@ public class Section {
 	}
 	
 	public void print() {
-		System.out.println(sectionID + " " + type + " " + instructor + " " + location);
+		System.out.println(sectionID + " " + type + " " + currentRegistered + " " + maxRegistered + " " + instructor + " " + location);
 		for(int i = 0; i < timing.size(); i++) {
-			//timing.get(i).start.print();
-			//timing.get(i).end.print();
+			timing.get(i).start.print();
+			timing.get(i).end.print();
 		}
 	}
 }

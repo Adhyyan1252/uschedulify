@@ -38,3 +38,4 @@ public class Timer {
 		System.out.println(day + " " + hour + " " + min);
 	}
 }
+

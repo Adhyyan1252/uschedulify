@@ -1,0 +1,124 @@
+/* adding new css stuff */
+.home-container{
+    display:flex;
+    width:100%;
+    margin:0;
+    margin-top:.5%;
+    padding:0;
+}
+
+.saved-sch{
+    background-color: #f4f4f4;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction:column;
+    box-sizing:border-box;
+    flex-basis:65.66%;
+    margin:1%;
+    border:2px;
+    border-color: rgb(173, 173, 173);
+    border-style:solid;
+    border-radius:10px;
+}
+
+.create-sch{
+    display:flex;
+    justify-content:top;
+    align-items: center;
+    flex-direction:column;
+    box-sizing:border-box;
+    flex-basis:32.33%;
+    margin:1%;
+    border:2px;
+    border-color: rgb(173, 173, 173);
+    background-color: #f4f4f4;
+    border-style:solid;
+    border-radius:10px;
+}
+
+
+ol {
+	display:flex;
+	flex-direction:column;
+	align-items:center;	
+	padding-inline-start:0;
+}
+
+li{
+	padding-left:5px;
+	padding-right:5px;
+	list-style-type: none;
+    background-color: #fff;
+    margin-top:15px;
+    width: 100%;
+    text-align:center;
+    border:2px;
+    border-color: rgb(173, 173, 173);
+    border-radius: 10px;
+    border-style:solid;
+}
+
+.gen-sch{
+    margin-top:15px;
+    width: 60%;
+    text-align:center;
+}
+.create-sch button{
+    width:70%;
+    border:2px;
+    background-color:#FFCC00;
+    border-color:#FFCC00;
+    border-style:solid;
+    border-radius:8px;
+}
+
+.create-sch button:hover {
+    background-color: rgb(226, 181, 0);
+    border-color: rgb(226, 181, 0);
+    cursor: pointer;
+}
+
+.add-a-class{
+    background-color: #fff;
+    width: 60%;
+    text-align:center;
+    border:2px;
+    border-color: rgb(173, 173, 173);
+    border-radius: 10px;
+    border-style:solid;
+}
+
+.add-a-class h3{
+    margin-top:5;
+    margin-bottom:0;
+}
+
+.add-a-class button{
+    margin-top:12px;
+    width:70%;
+    border:2px;
+    background-color:#FFCC00;
+    border-color:#FFCC00;
+    border-style:solid;
+    border-radius:8px;
+}
+
+.add-a-class button:hover {
+    background-color: rgb(226, 181, 0);
+    border-color: rgb(226, 181, 0);
+    cursor: pointer;
+}
+
+.add-a-class input{
+    width:70%;
+    margin:5px;
+    padding-bottom:3px;
+    border-bottom:2px;
+    border-top:0px;
+    border-right:0px;
+    border-left:0px;
+    border-color: rgb(173, 173, 173);
+    border-style:solid;
+    
+}

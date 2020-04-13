@@ -39,12 +39,6 @@ header {
     border-style:solid;
 }
 
-.box p{
-	color:red;
-}
-
-
-
 .box h3 {
     font-size: 25px;
     margin-top:0;
@@ -77,5 +71,6 @@ header {
     border-color: rgb(173, 173, 173);
     border-style:solid;
 }
+
 
 
