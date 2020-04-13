@@ -15,16 +15,13 @@ import algorithm.Section;
 import algorithm.TimeInterval;
 import algorithm.Timer;
 
-public class API {
-	public API()
+public class WebScraper {
+	public WebScraper()
 	{
 		
 	}
-	public static void main(String[] args) {
-		AddCourse("CSCI", "104");
-	}
 	
-	public static Course AddCourse(String major, String number) {
+	public static Course AddCourse(String major, String number) throws Exception {
 		ArrayList<Section> sect = new ArrayList<Section>();
 		String address = "https://classes.usc.edu/term-20203/course/" + major + "-" + number + "/";
 		org.jsoup.nodes.Document doc;
@@ -47,12 +44,9 @@ public class API {
 					sect.add(input);
 				}
 			}
-			for(int i = 0;i < sect.size(); i++) {
-				sect.get(i).print();
-			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw e;
 		}
 		Course course = new Course(major, number, sect);
 		return course;
