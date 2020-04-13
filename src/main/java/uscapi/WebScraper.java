@@ -1,19 +1,17 @@
 package uscapi;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
-
-import javax.swing.text.Document;
-import javax.swing.text.Element;
 
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 
 import algorithm.Course;
+import algorithm.Schedule;
 import algorithm.Section;
 import algorithm.TimeInterval;
 import algorithm.Timer;
+import database.DatabaseConnector;
 
 public class WebScraper {
 	public WebScraper()
@@ -21,14 +19,21 @@ public class WebScraper {
 		
 	}
 	public static void main(String[] args) {
-		Course a = null;
-		try {
-			a = AddCourse("CSCI", "103");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(a.detailedInfo());
+//		Course a = null;
+//		Course b = null;
+//		try {
+//			a = AddCourse("CSCI", "360");
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} 
+//		try {
+//			b = AddCourse("CSCI", "201");
+//			//System.out.println(b.detailedInfo());
+//		} catch (Exception e) { e.printStackTrace(); }
+	
+		Schedule returnedschedule = DatabaseConnector.retrieveSchedule(31, 11);
+		System.out.println(returnedschedule.detailedInfo());
 	}
 	
 	public static Course AddCourse(String major, String number) throws Exception {
@@ -50,12 +55,12 @@ public class WebScraper {
 					int[] registered =  RegisterHelper(register);
 					String instructor = row.select("td").get(6).text();
 					String location = row.select("td").get(7).text();
-					Section input = new Section(ID, timelist, registered[0], registered[1], type_, instructor, location);
+					Section input = new Section(ID, timelist, registered[0], registered[1], type_, instructor, location, major, number);
 					sect.add(input);
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
 			throw e;
 		}
 		Course course = new Course(major, number, sect);

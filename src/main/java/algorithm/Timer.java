@@ -25,7 +25,7 @@ public class Timer {
 			return "TBA";
 		}
 		else {
-			return day + ": " + hour + ": " + min;
+			return hour + ":" + min;
 		}
 	}
 	

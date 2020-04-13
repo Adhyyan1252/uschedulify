@@ -11,10 +11,11 @@ public class Section {
 	
 	public int currentRegistered, maxRegistered;
 	
+	public String majorname;
 	public String classname; //reference to unit
 	public String type;
 	public String instructor, location;
-	public Section(String SID, ArrayList<TimeInterval> time, int cr, int mr, String t, String in, String lo) {
+	public Section(String SID, ArrayList<TimeInterval> time, int cr, int mr, String t, String in, String lo, String mn, String cn) {
 		sectionID = SID;
 		timing = time;
 		currentRegistered = cr;
@@ -22,6 +23,8 @@ public class Section {
 		type = t;
 		instructor = in;
 		location = lo;
+		majorname = mn;
+		classname = cn;
 	}
 	
 	public Section() {

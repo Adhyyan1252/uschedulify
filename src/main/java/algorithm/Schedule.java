@@ -6,8 +6,7 @@ import java.util.ArrayList;
 
 public class Schedule {
 	public int userID;
-	public int scheduleID;
-	public ArrayList<Section> sections;
+	public ArrayList<Section> sections = new ArrayList<Section>();
 	
 	//returns all the sections in the schedule which have at least one timing on this day
 	public ArrayList<Section> getByDay(int day){
@@ -20,7 +19,7 @@ public class Schedule {
 	
 	//returns a String with information about each section in the schedule
 	public String detailedInfo() {
-		String ret = "SCHEDULE ID: " + scheduleID + "\n";
+		String ret = "";
 		for(Section s : sections) {
 			ret += s.toString() + "\n";
 		}
