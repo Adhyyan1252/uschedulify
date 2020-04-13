@@ -1,8 +1,17 @@
 package algorithm;
 
 public class TimeInterval {
-	public Time start, end;
+	public Timer start, end;
 	
+	public TimeInterval(Timer st, Timer en) {
+		start = st;
+		end = en;
+	}
+	
+	public TimeInterval(java.sql.Time sta, java.sql.Time en) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public static boolean isIntersecting(TimeInterval a, TimeInterval b) {
 		if(a.start.day != b.start.day) { //on different days
 			return false;
