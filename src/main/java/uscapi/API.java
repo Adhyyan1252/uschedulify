@@ -24,7 +24,7 @@ public class API {
 		AddCourse("CSCI", "104");
 	}
 	
-	public static void AddCourse(String major, String number) {
+	public static Course AddCourse(String major, String number) {
 		ArrayList<Section> sect = new ArrayList<Section>();
 		String address = "https://classes.usc.edu/term-20203/course/" + major + "-" + number + "/";
 		org.jsoup.nodes.Document doc;
@@ -49,13 +49,13 @@ public class API {
 			}
 			for(int i = 0;i < sect.size(); i++) {
 				sect.get(i).print();
-				
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		Course course = new Course(major, number, sect);
+		return course;
 	}
 	
 	private static int[] RegisterHelper(String reg) {
