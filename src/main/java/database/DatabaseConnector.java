@@ -2,7 +2,7 @@ package database;
 
 import java.sql.*;
 import algorithm.*;
-import algorithm.Time;
+import algorithm.Timer;
 import java.util.*;
 
 /*
@@ -129,8 +129,8 @@ public class DatabaseConnector {
 					for (int i = 0; i < alldays.length(); i++) {
 						TimeInterval newTimeInterval = new TimeInterval();
 						
-						Time startTime = new Time();
-						Time endTime = new Time();
+						Timer startTime = new Timer();
+						Timer endTime = new Timer();
 						
 						startTime.hour = start_time.getHours();
 						startTime.min = start_time.getMinutes();

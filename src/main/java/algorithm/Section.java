@@ -9,15 +9,22 @@ public class Section {
 	public String sectionID;
 	public ArrayList<TimeInterval> timing;
 	
-	public int currentRegistered, maxRegistered;
+	int currentRegistered, maxRegistered;
 	
-	public Course course; //reference to unit
+	public String unit; //reference to unit
 	public String type;
 	public String instructor, location;
-	public String classname;
-	
+	public Section(String SID, ArrayList<TimeInterval> time, int cr, int mr, String t, String in, String lo) {
+		sectionID = SID;
+		timing = time;
+		currentRegistered = cr;
+		maxRegistered = mr;
+		type = t;
+		instructor = in;
+		location = lo;
+	}
 	public String toString() {
-		return course.toString() + ": " + type + ":" + sectionID;
+		return unit.toString() + ": " + type + ":" + sectionID;
 	}
 	
 	//returns a TimeInterval if there is a timing on that day
@@ -32,5 +39,13 @@ public class Section {
 	
 	public boolean isOpen() {
 		return currentRegistered < maxRegistered;
+	}
+	
+	public void print() {
+		System.out.println(sectionID + " " + type + " " + instructor + " " + location);
+		for(int i = 0; i < timing.size(); i++) {
+			//timing.get(i).start.print();
+			//timing.get(i).end.print();
+		}
 	}
 }
