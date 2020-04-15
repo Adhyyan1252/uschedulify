@@ -39,11 +39,21 @@ public class Section {
 	}
 	
 	public boolean isOpen() {
-		return currentRegistered < maxRegistered;
+		if(currentRegistered == -1 && maxRegistered == -1) {
+			return false;
+		}
+		else {
+			return currentRegistered < maxRegistered;
+		}
 	}
 	
 	public void print() {
-		System.out.println(sectionID + " " + type + " " + currentRegistered + " " + maxRegistered + " " + instructor + " " + location);
+		if(currentRegistered == -1 && maxRegistered == -1) {
+			System.out.println(sectionID + " " + type + " " + "closed" + " " + instructor + " " + location);
+		}
+		else {
+			System.out.println(sectionID + " " + type + " " + currentRegistered + " " + maxRegistered + " " + instructor + " " + location);
+		}
 		for(int i = 0; i < timing.size(); i++) {
 			timing.get(i).start.print();
 			timing.get(i).end.print();
