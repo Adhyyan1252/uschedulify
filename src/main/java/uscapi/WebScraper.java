@@ -68,10 +68,20 @@ public class WebScraper {
 	}
 	
 	private static int[] RegisterHelper(String reg) {
-		String[] helper = reg.split(" ");
 		int[] a = new int[2];
+		if(reg.equalsIgnoreCase("closed")){
+			a[0] = -1;
+			a[1] = -1;
+			return a;
+		}
+		String[] helper = reg.split(" ");
 		a[0] = Integer.parseInt(helper[0]);
 		a[1] = Integer.parseInt(helper[2]);
+		if(a[0] == a[1]) {
+			a[0] = -1;
+			a[1] = -1;
+			return a;
+		}
 		return a;
 	}
 
@@ -93,7 +103,6 @@ public class WebScraper {
 		}
 		for(int i = 0;i < days.size();i++ ) {
 			Timer sta = new Timer(days.get(i), timestart[0], timestart[1]);
-			System.out.println();
 			Timer en = new Timer(days.get(i), timeend[0], timeend[1]);
 			TimeInterval insert = new TimeInterval(sta, en);
 			interval.add(insert);
@@ -102,15 +111,34 @@ public class WebScraper {
 	}
 	
 	private static int[] ParseTime(String time){
+		String checker = "";
 		int[] timer = new int[2];
 		String[] separate = time.split(":");
 		for(int i = 0; i < separate.length; i++) {
 			if(separate[i].length() > 2) {
+				checker = separate[i].substring(2, 4);
 				separate[i] = separate[i].substring(0, 2);
 			}
 		}
 		if(separate.length == 2) {
 			timer[0] = Integer.parseInt(separate[0]);
+			if(!checker.equalsIgnoreCase("")){
+				if(checker.equalsIgnoreCase("am")) {
+					if(timer[0] == 12) {
+						timer[0] = 0;
+					}
+				}
+				else if(checker.equalsIgnoreCase("pm")) {
+					if(timer[0] != 12) {
+						timer[0] += 12;
+					}
+				}
+			}
+			else {
+				if(timer[0] < 8) {
+					timer[0] += 12;
+				}
+			}
 			timer[1] = Integer.parseInt(separate[1]);
 		}
 		return timer;
