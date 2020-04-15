@@ -21,14 +21,21 @@ public class WebScraper {
 		
 	}
 	public static void main(String[] args) {
-		Course a = null;
-		try {
-			a = AddCourse("CSCI", "356");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println();
+//		Course a = null;
+//		Course b = null;
+//		try {
+//			a = AddCourse("CSCI", "360");
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} 
+//		try {
+//			b = AddCourse("CSCI", "201");
+//			//System.out.println(b.detailedInfo());
+//		} catch (Exception e) { e.printStackTrace(); }
+	
+		Schedule returnedschedule = DatabaseConnector.retrieveSchedule(31, 11);
+		System.out.println(returnedschedule.detailedInfo());
 	}
 	
 	public static Course AddCourse(String major, String number) throws Exception {
