@@ -32,7 +32,7 @@ public class Section {
 	}
 
 	public String toString() {
-		return classname.toString() + ": " + type + ":" + sectionID;
+		return classname.toString() + ": " + type + ":" + sectionID + ": " + getDays() + " " + (timing.size() > 0?timing.get(0).toString():" No times");
 	}
 	
 	//returns a TimeInterval if there is a timing on that day
@@ -66,4 +66,26 @@ public class Section {
 			timing.get(i).end.print();
 		}
 	}
+	
+	public String getDays() {
+		String ret = "";
+		for(TimeInterval t : timing) {
+			if(ret.length() != 0) ret += " ";
+			ret += t.start.getDay();
+		}
+		return ret;
+	}
+	
+	public static boolean isIntersecting(Section a, Section b) {
+		for(TimeInterval i : a.timing) {
+			for(TimeInterval j : b.timing) {
+				if(TimeInterval.isIntersecting(i, j)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	
 }

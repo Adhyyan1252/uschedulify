@@ -19,24 +19,26 @@ public class WebScraper {
 		
 	}
 	public static void main(String[] args) {
-//		Course a = null;
-//		Course b = null;
-//		try {
-//			a = AddCourse("CSCI", "360");
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} 
-//		try {
-//			b = AddCourse("CSCI", "201");
-//			//System.out.println(b.detailedInfo());
-//		} catch (Exception e) { e.printStackTrace(); }
+		Course a = null;
+		Course b = null;
+		try {
+			a = getCourse("CSCI", "104");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		try {
+			//b = AddCourse("CSCI", "201");
+			//System.out.println(b.detailedInfo());
+		} catch (Exception e) { e.printStackTrace(); }
 	
-		Schedule returnedschedule = DatabaseConnector.retrieveSchedule(31, 11);
-		System.out.println(returnedschedule.detailedInfo());
+		//Schedule returnedschedule = DatabaseConnector.retrieveSchedule(31, 11);
+		//System.out.println(returnedschedule.detailedInfo());
+		System.out.println(a.detailedInfo());
+		//System.out.println(b.detailedInfo());
 	}
 	
-	public static Course AddCourse(String major, String number) throws Exception {
+	public static Course getCourse(String major, String number) throws Exception {
 		ArrayList<Section> sect = new ArrayList<Section>();
 		String address = "https://classes.usc.edu/term-20203/course/" + major + "-" + number + "/";
 		org.jsoup.nodes.Document doc;
@@ -86,63 +88,53 @@ public class WebScraper {
 	}
 
 	private static ArrayList<TimeInterval> TimeHelper(String time, String day) {
-		ArrayList<Integer> days = ParseDay(day);
+		//System.out.println("PARSING " + time);
 		ArrayList<TimeInterval> interval = new ArrayList<TimeInterval>();
-		String[] helper = time.split("-");
-		int[] timeend = new int[2];
-		int[] timestart = new int[2];
-		if(helper.length == 2) {
-			timestart = ParseTime(helper[0]);
-			timeend = ParseTime(helper[1]);
+		Timer start = new Timer(), end = new Timer();
+		
+		try {
+			String amOrPm = time.substring(time.length() - 2);
+			String[] helper = time.substring(0, time.length() - 2).split("-");
+			start.hour = Integer.parseInt(helper[0].split(":")[0]);
+			start.min = Integer.parseInt(helper[0].split(":")[1]);
+			
+			end.hour = Integer.parseInt(helper[1].split(":")[0]);
+			end.min = Integer.parseInt(helper[1].split(":")[1]);
+			
+			
+			if(amOrPm.equals("am")){
+				//dont do anything
+			}else if(amOrPm.equals("pm")){
+				if(end.hour != 12) {
+					end.hour += 12;
+				}
+				if(start.hour != 12 && end.hour != 12 && start.hour <= end.hour) {
+					start.hour += 12;
+				}
+			}else {
+				throw new Exception("not am or pm");
+			}
+			
+		}catch (Exception e) {
+			start.hour = -1;
+			start.min = -1;
+			end.hour = -1;
+			end.min = -1;
 		}
-		else {
-			timestart[0] = -1;
-			timestart[1] = -1;
-			timeend[0] = -1;
-			timeend[1] = -1;
+		
+		if(start.hour != -1 && !day.equalsIgnoreCase("tba")) {
+			ArrayList<Integer> days = ParseDay(day);
+			for(int i = 0;i < days.size();i++ ) {	
+				Timer sta = new Timer(days.get(i), start.hour, start.min);
+				Timer en = new Timer(days.get(i), end.hour, end.min);
+				TimeInterval insert = new TimeInterval(sta, en);
+				interval.add(insert);
+			}
 		}
-		for(int i = 0;i < days.size();i++ ) {
-			Timer sta = new Timer(days.get(i), timestart[0], timestart[1]);
-			Timer en = new Timer(days.get(i), timeend[0], timeend[1]);
-			TimeInterval insert = new TimeInterval(sta, en);
-			interval.add(insert);
-		}
+		//System.out.println("RETURNING " + interval);
 		return interval;
 	}
 	
-	private static int[] ParseTime(String time){
-		String checker = "";
-		int[] timer = new int[2];
-		String[] separate = time.split(":");
-		for(int i = 0; i < separate.length; i++) {
-			if(separate[i].length() > 2) {
-				checker = separate[i].substring(2, 4);
-				separate[i] = separate[i].substring(0, 2);
-			}
-		}
-		if(separate.length == 2) {
-			timer[0] = Integer.parseInt(separate[0]);
-			if(!checker.equalsIgnoreCase("")){
-				if(checker.equalsIgnoreCase("am")) {
-					if(timer[0] == 12) {
-						timer[0] = 0;
-					}
-				}
-				else if(checker.equalsIgnoreCase("pm")) {
-					if(timer[0] != 12) {
-						timer[0] += 12;
-					}
-				}
-			}
-			else {
-				if(timer[0] < 8) {
-					timer[0] += 12;
-				}
-			}
-			timer[1] = Integer.parseInt(separate[1]);
-		}
-		return timer;
-	}
 	
 	private static ArrayList<Integer> ParseDay(String day){
 		ArrayList<Integer> days = new ArrayList<Integer>();
