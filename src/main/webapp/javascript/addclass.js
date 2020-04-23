@@ -1,4 +1,7 @@
-// added a class list
+// homepage js
+
+var coursesraw = "";
+
 function addClass() {
 	var item = document.getElementById("addClassInput").value
 	
@@ -8,6 +11,8 @@ function addClass() {
 	
 	var text = document.createTextNode(item)
 	var newItem = document.createElement("li")
+	coursesRaw += text;
+	couresRaw == ",";
 	newItem.appendChild(text)
 	document.getElementById("addedClasses").appendChild(newItem)
 }
@@ -22,4 +27,13 @@ function validate(item) {
 		return true
 	}
 	
+}
+
+function genCourses() {
+	var xhttp = new XMLHttpRequest();
+	alert(coursesraw);
+	xhttp.open("GET","scheduleRequest?coursesraw=" + coursesraw,false);
+	xhttp.send;
+	alert(xhttp.responseText);
+	return false;
 }

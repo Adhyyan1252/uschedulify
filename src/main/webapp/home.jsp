@@ -28,7 +28,7 @@
                     </ol>
                     <script src="javascript/addclass.js"></script>
                     <div class="gen-sch">
-                        <form action="" method="POST" name="generate-schedule">
+                        <form method="POST" name="generate-schedule" onsubmit="return genCourses()">
                             <button type="submit">generate schedule</button>
                         </form>
                     </div>
