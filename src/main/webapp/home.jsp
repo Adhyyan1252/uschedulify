@@ -5,6 +5,7 @@
         <title>USChedulify | Home </title>
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/home.css">
+        <script src="javascript/addclass.js"></script>
     </head>
     <body>
         <header>

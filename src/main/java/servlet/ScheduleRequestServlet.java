@@ -16,17 +16,22 @@ import algorithm.ScheduleMaker;
 import uscapi.WebScraper;
 
 @WebServlet(
-	name ="MyServlet2",
 	urlPatterns = {"/ScheduleRequest"}
 )
 
 public class ScheduleRequestServlet extends HttpServlet {
 
+	private static final long serialVersionUID = 1L;
+
 	@Override
-	protected void service(HttpServletRequest req, HttpServletResponse resp)
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		System.out.println("entering schedule request servlet");
 		String coursesraw = req.getParameter("coursesraw"); // courses seperated by ,
+		
+		System.out.println("courses raw is: " + coursesraw);
+
 		String[] courses = coursesraw.split(",");
 
 		ScheduleMaker sm = new ScheduleMaker();

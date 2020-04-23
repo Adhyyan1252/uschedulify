@@ -1,5 +1,4 @@
 // homepage js
-
 var coursesraw = "";
 
 function addClass() {
@@ -11,8 +10,8 @@ function addClass() {
 	
 	var text = document.createTextNode(item)
 	var newItem = document.createElement("li")
-	coursesRaw += text;
-	couresRaw == ",";
+	coursesraw = coursesraw + item + ",";
+	alert(coursesraw);
 	newItem.appendChild(text)
 	document.getElementById("addedClasses").appendChild(newItem)
 }
@@ -32,8 +31,8 @@ function validate(item) {
 function genCourses() {
 	var xhttp = new XMLHttpRequest();
 	alert(coursesraw);
-	xhttp.open("GET","scheduleRequest?coursesraw=" + coursesraw,false);
-	xhttp.send;
+	xhttp.open("GET","ScheduleRequest?coursesraw=" + coursesraw,false);
+	xhttp.send();
 	alert(xhttp.responseText);
 	return false;
 }
