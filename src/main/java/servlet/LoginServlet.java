@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("setting userID to " + userID);
             session.setAttribute("userID", userID);
             session.setAttribute("userName", userName);
-			RequestDispatcher dispatcher = req.getRequestDispatcher("/home");
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/");
             dispatcher.forward(req, resp);
 
 			
@@ -63,7 +63,7 @@ public class LoginServlet extends HttpServlet {
 			System.err.println("sqle: " + sqle.getMessage());
 			
 			req.setAttribute("message", "javascript/loginerror.js");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
             dispatcher.forward(req, resp);
 			
 		}

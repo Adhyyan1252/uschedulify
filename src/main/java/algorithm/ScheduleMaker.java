@@ -26,7 +26,7 @@ public class ScheduleMaker {
 		int gen = sm.generateSchedule();
 		System.out.println(gen);
 		sm.sortClasses();
-		ArrayList<Schedule> schedules = sm.getSchedule(5);
+		ArrayList<Schedule> schedules = sm.getSchedules(5);
 		for(Schedule s : schedules)
 			System.out.println(s.detailedInfo());
 	}
@@ -156,7 +156,7 @@ public class ScheduleMaker {
 	
 
 	//returns upto max different schedules
-	public ArrayList<Schedule> getSchedule(int max){
+	public ArrayList<Schedule> getSchedules(int max){
 		ArrayList<Schedule> ret = new ArrayList<Schedule>();
 		for(int i = 0; i < max && i < schedules.size(); i++)
 			ret.add(schedules.get(i));
