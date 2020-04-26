@@ -12,6 +12,9 @@ public class DatabaseConnector {
 	//[PRIMARY FUNCTION: TO CONNECT TO DATABASE]
 	public static Connection connectToDatabase() {
 		try {
+			if(connection != null){
+				connection.close();
+			}
 			connection = DriverManager.getConnection("jdbc:mysql://us-cdbr-iron-east-01.cleardb.net:3306/heroku_15f10f75c7431e6?user=b5a203584b9d69&password=205de108&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC"); // URI - Uniform Resource Identifier
 			return connection;
 		}
@@ -22,7 +25,7 @@ public class DatabaseConnector {
 	}
 	
 	public static void pushSection(Section section) {
-		if (connection == null) { connectToDatabase(); }
+		 connectToDatabase();
 
 		PreparedStatement toinsert = null;
 		try {
@@ -32,8 +35,14 @@ public class DatabaseConnector {
 			toinsert.setString(3, section.classname);
 			toinsert.setString(4, section.type);
 			//[WARNING: TIME DATA ENTRY]
+			try{
 			toinsert.setString(5, section.timing.get(0).start.toString());
 			toinsert.setString(6, section.timing.get(0).end.toString());
+			} catch(IndexOutOfBoundsException e){
+			toinsert.setString(5, null);
+			toinsert.setString(6, null);
+			
+			}
 			
 			String alldays = "";
 			for (int j = 0; j < section.timing.size(); j++) {
@@ -51,7 +60,7 @@ public class DatabaseConnector {
 	//[PRIMARY FUNCTION: SET SCHEDULE IN MYSQL DATABASE]
 	public static int setSchedule(Schedule schedule) {
 		//[SETUP & ENSURING CONNECTION EXISTS]
-		if (connection == null) { connectToDatabase(); }
+		connectToDatabase(); 
 		
 		try {
 			//[UPDATING SECTIONS]
@@ -76,6 +85,8 @@ public class DatabaseConnector {
 				PreparedStatement preps = connection.prepareStatement("INSERT INTO schedule_section_link (scheduleID, sectionID) VALUES (?,?)");
 				preps.setInt(1, scheduleID);
 				preps.setString(2, schedule.sections.get(i).sectionID);
+				
+				System.out.println(scheduleID+ ", " + schedule.sections.get(i).sectionID);
 				preps.executeUpdate();
 			}
 			return scheduleID;
@@ -94,7 +105,7 @@ public class DatabaseConnector {
 		ArrayList<Section> sections = new ArrayList<Section>();
 		
 		//[MAKE SURE NO UNNECCESARY COMMITS]
-		if (connection == null) { connectToDatabase(); }
+		connectToDatabase(); 
 		
 		try {	
 			ps = connection.prepareStatement("SELECT * FROM schedule_section_link WHERE scheduleID=?");

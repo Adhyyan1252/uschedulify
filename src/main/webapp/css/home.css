@@ -136,3 +136,14 @@ li{
     border-style:solid;
     
 }
+.button{
+	height: auto;
+    margin-top:12px;
+    width:70%;
+    border:2px;
+    background-color:#FFFFFF;
+    border-color:#FFCC00;
+    border-style:solid;
+    border-radius:8px;
+    font-size: 12px;
+}
