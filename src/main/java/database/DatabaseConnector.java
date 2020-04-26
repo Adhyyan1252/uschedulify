@@ -144,9 +144,10 @@ public class DatabaseConnector {
 					
 						Timer startTime = new Timer();
 						Timer endTime = new Timer();
-	
+						startTime.day = alldays.charAt(i)-'0';
 						startTime.hour = start_time.getHours();
 						startTime.min = start_time.getMinutes();
+						endTime.day = alldays.charAt(i)-'0';
 						endTime.hour = end_time.getHours();
 						endTime.min = end_time.getMinutes();
 						
