@@ -15,11 +15,47 @@
 	window.onload = function showMap(){
 		var ID  = "<%= request.getParameter("ID") %>";
 		var xhttp = new XMLHttpRequest();
+		
 		xhttp.open("GET", "CalendarServlet?ID="+ID, false);
 		xhttp.send();
-		var stuff = xhttp.responseText;
+		console.log(xhttp.responseText);
+		var sched = JSON.parse(xhttp.responseText);
+		console.log(sched);
+		readSchedule(sched);
 		
 	}
+	
+	function readSchedule(schedule){
+		const sections = schedule["sections"];
+		for( var i = 0; i<sections.length; i++){
+			const className = sections[i]["classname"];
+			const majorName = sections[i]["majorname"];
+			const timings = sections[i]["timing"];
+			console.log(className);
+			for( var j = 0;timings!=null&&j<timings.length; j++){
+				console.log("hello");
+				const start = timings[j]["start"];
+				const end = timings[j]["end"];
+				var tempLI = document.createElement("LI");
+				var newItem = document.createElement("a");
+				var newEM = document.createElement("em");
+				newEM.setAttribute("class" , "cd-schedule__name");
+				newItem.setAttribute("data-start", start["hour"]+":" +start["min"]);
+				newItem.setAttribute("data-end", end["hour"]+":" +end["min"]);
+				newItem.setAttribute("data-event", "event-1");
+				newItem.setAttribute("href", "#0");
+				tempLI.setAttribute("class", "cd-schedule__event");
+				newEM.innerHTML = majorName + className;
+				newItem.appendChild(newEM);
+				tempLI.appendChild(newItem);
+				document.getElementById("ulday"+start["day"]).appendChild(tempLI);
+				console.log(tempLI);
+			}
+			
+		}
+		
+	}
+	
 </script>
 
   <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
@@ -51,40 +87,24 @@
     <ul ></ul>
       <ul>
         <li class="cd-schedule__group">
-
-          <div class="cd-schedule__top-info"><span>Monday</span></div>
-  
-          <ul>
-            <li class="cd-schedule__event">
-              <a data-start="09:30" data-end="10:30" data-content="event-abs-circuit" data-event="event-1" href="#0">
-                <em class="cd-schedule__name">Abs Circuit</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="11:00" data-end="12:30" data-content="event-rowing-workout" data-event="event-2" href="#0">
-                <em class="cd-schedule__name">Rowing Workout</em>
-              </a>
-            </li>
-  
-            <li class="cd-schedule__event">
-              <a data-start="14:00" data-end="15:15"  data-content="event-yoga-1" data-event="event-3" href="#0">
-                <em class="cd-schedule__name">Yoga Level 1</em>
-              </a>
-            </li>
-          </ul>
+          <div class="cd-schedule__top-info" id = "day0"><span>Monday</span></div>
+          <ul id = "ulday0"> </ul>
         </li>
-           <li class="cd-schedule__group">
-           	<div class="cd-schedule__top-info"><span>Tuesday</span></div>
+        <li class="cd-schedule__group">
+           <div class="cd-schedule__top-info" id = "day1"><span>Tuesday</span></div>
+           	<ul id = "ulday1"></ul>
         </li>
-           <li class="cd-schedule__group">
-           <div class="cd-schedule__top-info"><span>Wednesday</span></div>
+        <li class="cd-schedule__group">
+           <div class="cd-schedule__top-info" id = "day2"><span>Wednesday</span></div>
+           <ul id = "ulday2"></ul>
         </li>
-           <li class="cd-schedule__group">
-           <div class="cd-schedule__top-info"><span>Thursday</span></div>
+        <li class="cd-schedule__group">
+           <div class="cd-schedule__top-info" id = "day3"><span>Thursday</span></div>
+           <ul id = "ulday3"></ul>
         </li>
-           <li class="cd-schedule__group">
-           <div class="cd-schedule__top-info"><span>Friday</span></div>
+        <li class="cd-schedule__group">
+           <div class="cd-schedule__top-info" id = "day4"><span>Friday</span></div>
+           <ul id = "ulday4"></ul>
         </li>
       </ul>
     </div>
