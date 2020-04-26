@@ -16,6 +16,7 @@
                 <div class="saved-sch">
                     <h1>saved schedules</h1>
                 </div>
+                <div class = "g-sch"><h1>Generated Schedules</h1> </div>
                 <div class="create-sch">
                     <h1>create a schedule</h1>
                     <div class="add-a-class">

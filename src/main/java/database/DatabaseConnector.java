@@ -49,7 +49,7 @@ public class DatabaseConnector {
 	}
 	
 	//[PRIMARY FUNCTION: SET SCHEDULE IN MYSQL DATABASE]
-	public static void setSchedule(Schedule schedule) {
+	public static int setSchedule(Schedule schedule) {
 		//[SETUP & ENSURING CONNECTION EXISTS]
 		if (connection == null) { connectToDatabase(); }
 		
@@ -78,9 +78,11 @@ public class DatabaseConnector {
 				preps.setString(2, schedule.sections.get(i).sectionID);
 				preps.executeUpdate();
 			}
+			return scheduleID;
 		} catch (Exception e) {
 			e.printStackTrace(); 
 		}
+		return -1;
 	}
 	
 	//[PRIMARY FUNCTION: RETURN NEW JAVA SCHEDULE OBJECT]

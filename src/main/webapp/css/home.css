@@ -21,6 +21,20 @@
     border-style:solid;
     border-radius:10px;
 }
+.g-sch{
+    background-color: #f4f4f4;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction:column;
+    box-sizing:border-box;
+    flex-basis:65.66%;
+    margin:1%;
+    border:2px;
+    border-color: rgb(173, 173, 173);
+    border-style:solid;
+    border-radius:10px;
+}
 
 .create-sch{
     display:flex;
