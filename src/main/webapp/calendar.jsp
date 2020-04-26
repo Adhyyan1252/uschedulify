@@ -46,16 +46,6 @@
         <li class="cd-schedule__group">
            <div class="cd-schedule__top-info" id = "day1"><span>Tuesday</span></div>
            	<ul id = "ulday1">
-           	<li class="cd-schedule__event">
-              <a data-start="14:00" data-end="15:15"  data-event="event-1" href="#0">
-                <em class="cd-schedule__name">Yoga Level 1</em>
-              </a>
-            </li>
-            <li class="cd-schedule__event">
-            		<a data-start="12:00" data-end="13:20" data-event="event-1" href="#0">
-            			<em class="cd-schedule__name">CSCI201</em>
-            		</a>
-            </li>
             </ul>
         </li>
         <li class="cd-schedule__group">
@@ -94,8 +84,7 @@
     <div class="cd-schedule__cover-layer"></div>
   </div> <!-- .cd-schedule -->
 
-  <script async defer src="javascript/util.js"></script> <!-- util functions included in the CodyHouse framework -->
-  <script async defer src="javascript/main.js"></script>
+  
   <script>
 	 function showMap(){
 		var ID  = "<%= request.getParameter("ID") %>";
@@ -140,7 +129,18 @@
 		}
 		
 	}
+	function sleep(milliseconds){
+		const date = Date.now();
+		let currentDate = null;
+		do{ currentDate = Date.now();}
+		while(currentDate -date <milliseconds);
+		}
+
+	
 	showMap();
-</script>
+	
+	
+</script><script  src="javascript/util.js"></script> <!-- util functions included in the CodyHouse framework -->
+  <script src="javascript/main.js"></script>
 </body>
 </html>
