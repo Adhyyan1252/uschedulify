@@ -28,6 +28,31 @@ function validate(item) {
 	
 }
 
+function loadSavedCourses() {
+	var xhttp = new XMLHttpRequest();
+	alert(coursesraw);
+	xhttp.open("GET","ScheduleRequest?coursesraw=" + coursesraw,false);
+	xhttp.send();
+	
+	var arr = xhttp.responseText.trim().split("\n"); 
+	if (arr.length == 0) { alert("NO SAVED SCHEDULES"); }
+	alert(arr.length);
+	for( var i = 0; i < arr.length; i++){
+		var newItem = document.createElement("BUTTON");
+		newItem.setAttribute("type", "button");
+		newItem.setAttribute("class", "button");
+		newItem.setAttribute("style", "width:250px");
+		newItem.setAttribute("onclick", "showMap('" + arr[i] + "')");
+		newItem.innerHTML = arr[i];
+		document.getElementsByClassName("saved-sch")[0].appendChild(newItem);
+		
+	}
+	alert(xhttp.responseText+" " + arr);
+	
+	
+	return false;
+}
+
 function genCourses() {
 	var xhttp = new XMLHttpRequest();
 	alert(coursesraw);

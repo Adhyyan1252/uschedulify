@@ -6,8 +6,15 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/home.css">
         <script src="javascript/addclass.js"></script>
+         <script >
+    		function loadSched(){
+	    		loadSavedCourses();
+	    		console.log("Functional");
+   		 }
+		</script>
+        
     </head>
-    <body>
+    <body onload = "loadSched()">
         <header>
             <h1> <span class="highlight">usc</span>hedulify - <span class="highlight">hello</span> ${userName}!</h1>
         </header>
