@@ -2,6 +2,8 @@ package uscapi;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
@@ -13,13 +15,18 @@ import algorithm.TimeInterval;
 import algorithm.Timer;
 import database.DatabaseConnector;
 
-public class WebScraper {
-	public WebScraper()
+public class WebScraper extends Thread {
+	String major;
+	String number;
+	Course courses;
+	public WebScraper(String maj, String num)
 	{
-		
+		major = maj;
+		number = num;
 	}
+	
 	public static void main(String[] args) {
-		Course a = null;
+		/*Course a = null;
 		Course b = null;
 		try {
 			a = getCourse("CSCI", "104");
@@ -35,10 +42,17 @@ public class WebScraper {
 		//Schedule returnedschedule = DatabaseConnector.retrieveSchedule(31, 11);
 		//System.out.println(returnedschedule.detailedInfo());
 		System.out.println(a.detailedInfo());
-		//System.out.println(b.detailedInfo());
+		//System.out.println(b.detailedInfo());*/
+		
+		
+		/*ExecutorService executor = Executors.newFixedThreadPool(3);
+		executor.execute(new WebScraper("CSCI", "201"));
+		executor.execute(new WebScraper("CSCI", "103"));
+		executor.execute(new WebScraper("CSCI", "270"));
+		executor.shutdown();*/
 	}
 	
-	public static Course getCourse(String major, String number) throws Exception {
+	public Course getCourse(String major, String number) throws Exception {
 		ArrayList<Section> sect = new ArrayList<Section>();
 		String address = "https://classes.usc.edu/term-20203/course/" + major + "-" + number + "/";
 		org.jsoup.nodes.Document doc;
@@ -66,10 +80,11 @@ public class WebScraper {
 			throw e;
 		}
 		Course course = new Course(major, number, sect);
+		System.out.println(course.detailedInfo());
 		return course;
 	}
 	
-	private static int[] RegisterHelper(String reg) {
+	private int[] RegisterHelper(String reg) {
 		int[] a = new int[2];
 		if(reg.equalsIgnoreCase("closed")){
 			a[0] = -1;
@@ -87,7 +102,7 @@ public class WebScraper {
 		return a;
 	}
 
-	private static ArrayList<TimeInterval> TimeHelper(String time, String day) {
+	private ArrayList<TimeInterval> TimeHelper(String time, String day) {
 		//System.out.println("PARSING " + time);
 		ArrayList<TimeInterval> interval = new ArrayList<TimeInterval>();
 		Timer start = new Timer(), end = new Timer();
@@ -136,7 +151,7 @@ public class WebScraper {
 	}
 	
 	
-	private static ArrayList<Integer> ParseDay(String day){
+	private ArrayList<Integer> ParseDay(String day){
 		ArrayList<Integer> days = new ArrayList<Integer>();
 		if(day.equals("MWF")) {
 			days.add(0);
@@ -184,4 +199,12 @@ public class WebScraper {
 		return days;
 	}
 	
+	public void run() {
+		try {
+			courses = getCourse(major, number);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
