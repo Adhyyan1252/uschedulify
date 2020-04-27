@@ -57,8 +57,28 @@ public class DatabaseConnector {
 		} catch (Exception e) { e.printStackTrace(); }	
 	}
 	
+	public static String saveToDatabase(int scheduleID, int userID) {
+		connectToDatabase(); 
+		try {
+			PreparedStatement ps = null;
+			ps = connection.prepareStatement("SELECT * FROM schedules WHERE scheduleID = ? AND userID = ? AND saved = 1");	
+			ps.setInt(1, scheduleID);
+			ps.setInt(2, userID);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return "TRUE";
+			} else {
+				PreparedStatement preps = null;
+				preps = connection.prepareStatement("UPDATE schedules SET saved = 1 WHERE scheduleID = ? AND userID = ?");	
+				preps.setInt(1, scheduleID);
+				preps.setInt(2, userID);
+				preps.executeUpdate();
+			}
+		} catch (Exception e) { e.printStackTrace(); }
+		return "";
+	}
 	//[PRIMARY FUNCTION: SET SCHEDULE IN MYSQL DATABASE]
-	public static int setSchedule(Schedule schedule) {
+	public static int setSchedule(Schedule schedule, int userID) {
 		//[SETUP & ENSURING CONNECTION EXISTS]
 		connectToDatabase(); 
 		
@@ -71,7 +91,7 @@ public class DatabaseConnector {
 			//[ADD TO SCHEDULE]
 			PreparedStatement ps = null;
 			ps = connection.prepareStatement("INSERT INTO schedules (userID, dateCreated, schedule_name) VALUES (?, NULL, ?)",  Statement.RETURN_GENERATED_KEYS);
-			ps.setInt(1, 11);
+			ps.setInt(1, userID);
 			ps.setString(2, "ScheduleName");
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
@@ -89,6 +109,7 @@ public class DatabaseConnector {
 				System.out.println(scheduleID+ ", " + schedule.sections.get(i).sectionID);
 				preps.executeUpdate();
 			}
+			rs.close();
 			return scheduleID;
 		} catch (Exception e) {
 			e.printStackTrace(); 
@@ -96,6 +117,26 @@ public class DatabaseConnector {
 		return -1;
 	}
 	
+	public static ArrayList<Integer> retrieveSavedSchedules(int userID){
+		connectToDatabase(); 
+		try {
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			ArrayList<Integer> ids = new ArrayList<Integer>();
+			ArrayList<Schedule> schedules = new ArrayList<Schedule>();
+			ps = connection.prepareStatement("SELECT * FROM schedules WHERE userID = ? AND saved = 1");
+			ps.setInt(1, userID);
+			rs = ps.executeQuery();
+			while (rs.next()){
+				int schID = rs.getInt("ScheduleID");
+				ids.add(schID);
+			}
+			rs.close();
+			return ids;
+		} catch (Exception e) { e.printStackTrace(); }
+		return new ArrayList<Integer>();
+	}
+
 	//[PRIMARY FUNCTION: RETURN NEW JAVA SCHEDULE OBJECT]
 	public static Schedule retrieveSchedule(int scheduleID, int userID) {
 		//[SET-UP]
@@ -108,10 +149,11 @@ public class DatabaseConnector {
 		connectToDatabase(); 
 		
 		try {	
+			
 			ps = connection.prepareStatement("SELECT * FROM schedule_section_link WHERE scheduleID=?");
 			ps.setInt(1, scheduleID);
 			rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
 				String secID = rs.getString("sectionID");
 				PreparedStatement innerst = connection.prepareStatement("SELECT * FROM sections where sectionID = ?");
@@ -177,11 +219,12 @@ public class DatabaseConnector {
 					}
 				}
 			}		
-			
+			rs.close();
 		} catch (Exception e) { e.printStackTrace(); }
 		schedule.sections = sections;
 		schedule.userID = userID;
 		return schedule;
+		
 	}
 		
 }

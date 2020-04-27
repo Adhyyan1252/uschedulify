@@ -6,7 +6,7 @@
   <script>document.getElementsByTagName("html")[0].className += " js";</script>
   <link rel="stylesheet" href="css/calendarCSS.css">
 
-  <title>Schedule Template | CodyHouse</title>
+  <title>USChedulify | Schedule Option</title>
   <style>
 		#container {
 			height: 100px;
@@ -33,16 +33,30 @@
   </style>
 </head>
 <body>
+	<script>
+		function saveSchedule() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET","SaveScheduleDatabase?id=" + "<%=request.getParameter("ID")%>",true);
+			xhttp.send();
+			if (xhttp.responseText.trim() == "TRUE") {
+				alert("The schedule has already been saved.");
+			} else {
+				alert("The schedule is now saved.");
+				document.getElementById("sc").innerHTML = "Saved";
+				document.getElementById("sc").setAttribute("onclick", "");
+			}
+			
+		}
+	</script>
   	<header>
-        <h1> <span class="highlight">usc</span>hedulify - <span class="highlight">hello!</span></h1>
+        <h1> <span class="highlight">usc</span>hedulify</h1>
+		<% if (request.getParameter("saved").equals("false")) { %>
+			<button id = "sc" onclick = "saveSchedule()"> Save Class </button>
+		<% } %>
      </header>
   <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     <div class="cd-schedule__timeline">
       <ul>
-      	<li><span>08:00</span></li>
-      	<li><span>08:30</span></li>
-        <li><span>09:00</span></li>
-        <li><span>09:30</span></li>
         <li><span>10:00</span></li>
         <li><span>10:30</span></li>
         <li><span>11:00</span></li>
@@ -119,9 +133,9 @@
   
   <script>
 	 function showMap(){
-		var ID  = "<%= request.getParameter("ID") %>";
-		var xhttp = new XMLHttpRequest();
-		
+		var ID = "<%=request.getParameter("ID")%>";
+		console.log(ID);
+		var xhttp = new XMLHttpRequest();	
 		xhttp.open("GET", "CalendarServlet?ID="+ID, false);
 		xhttp.send();
 		console.log(xhttp.responseText);
@@ -152,7 +166,6 @@
 			}
 			
 			for( var j = 0; timings!=null && j<timings.length; j++){
-				console.log("hello");
 				const start = timings[j]["start"];
 				const end = timings[j]["end"];
 				var tempLI = document.createElement("LI");
@@ -168,7 +181,6 @@
 				newItem.appendChild(newEM);
 				tempLI.appendChild(newItem);
 				document.getElementById("ulday"+start["day"]).appendChild(tempLI);
-				console.log(tempLI);
 			}
 			
 		}

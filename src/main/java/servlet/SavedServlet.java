@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,23 +24,28 @@ import com.google.gson.Gson;
 import database.DatabaseConnector;
 
 @WebServlet(
-        name = "CalendarServlet", 
-        urlPatterns = {"/CalendarServlet"}
+        name = "SavedServlet", 
+        urlPatterns = {"/SavedServlet"}
     )
-public class CalendarServlet extends HttpServlet {
+public class SavedServlet extends HttpServlet {
 	
-    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-    		int ID = Integer.parseInt((String)req.getParameter("ID"));
-    		int userID = -1;
-    		Schedule currsch = DatabaseConnector.retrieveSchedule(ID, userID);
-    		Gson gson = new Gson();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
+    		int userID = (Integer) req.getSession().getAttribute("userID");
+    		ArrayList<Integer> arr = DatabaseConnector.retrieveSavedSchedules(userID);
     		PrintWriter out = resp.getWriter();
-    		out.println(gson.toJson(currsch));
+    		System.out.println(arr.size());
+    		for (Integer i: arr) {
+    			out.println(i);
+    		}
     		out.flush();
+    		System.out.println("REACHED END");
     		out.close();
-    		
     }
     
 }

@@ -60,7 +60,7 @@ public class ScheduleRequestServlet extends HttpServlet {
 		ArrayList<Schedule> genSchedules = sm.getSchedules(2); 
 		ArrayList<Integer> IDlist = new ArrayList<Integer>();
 		for(Schedule schedule: genSchedules){
-			int ID = DatabaseConnector.setSchedule(schedule);
+			int ID = DatabaseConnector.setSchedule(schedule, (Integer) req.getSession().getAttribute("userID"));
 			if(ID != -1) {
 				IDlist.add(ID);
 			}

@@ -23,23 +23,23 @@ import com.google.gson.Gson;
 import database.DatabaseConnector;
 
 @WebServlet(
-        name = "CalendarServlet", 
-        urlPatterns = {"/CalendarServlet"}
+        name = "SaveScheduleDatabase", 
+        urlPatterns = {"/SaveScheduleDatabase"}
     )
-public class CalendarServlet extends HttpServlet {
+public class SaveScheduleDatabase extends HttpServlet {
 	
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-    		int ID = Integer.parseInt((String)req.getParameter("ID"));
-    		int userID = -1;
-    		Schedule currsch = DatabaseConnector.retrieveSchedule(ID, userID);
-    		Gson gson = new Gson();
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
+    		String sid = req.getParameter("id");
+    		System.out.println("FLAG: " + sid);
+    		int scheduleID = -1;
+    		if (sid != null) { scheduleID = Integer.parseInt(sid); }
+    		int userID = (Integer) req.getSession().getAttribute("userID");
+    		String response = DatabaseConnector.saveToDatabase(scheduleID, userID);
     		PrintWriter out = resp.getWriter();
-    		out.println(gson.toJson(currsch));
+    		out.println(response);
     		out.flush();
     		out.close();
-    		
     }
     
 }

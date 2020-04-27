@@ -6,13 +6,12 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/home.css">
         <script src="javascript/addclass.js"></script>
-         <script >
-    		function loadSched(){
+         <script>
+    	function loadSched(){
 	    		loadSavedCourses();
-	    		console.log("Functional");
-   		 }
+   		}
 		</script>
-        
+      
     </head>
     <body onload = "loadSched()">
         <header>
@@ -20,8 +19,9 @@
         </header>
         <section>
             <div class="home-container">
-                <div class="saved-sch">
+                <div class="saved-sch" id = "savedsch">
                     <h1>saved schedules</h1>
+                   <!--  <button type="button" onclick = "removeAllSaved()"> Remove Saved Classes </button> -->
                 </div>
                 <div class = "g-sch"><h1>Generated Schedules</h1> </div>
                 <div class="create-sch">
@@ -36,7 +36,7 @@
                     <ol id="addedClasses">
                     </ol>
                     <script src="javascript/addclass.js"></script>
-                    <div class="gen-sch">
+                    <div class="gen-sch" >
                         <form method="POST" name="generate-schedule" onsubmit="return genCourses()">
                             <button type="submit">generate schedule</button>
                         </form>
