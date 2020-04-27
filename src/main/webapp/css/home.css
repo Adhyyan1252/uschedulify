@@ -97,6 +97,7 @@ li{
     border-color:#FFCC00;
     border-style:solid;
     border-radius:8px;
+    margin-bottom: 8.5px;
 }
 
 .create-sch button:hover {

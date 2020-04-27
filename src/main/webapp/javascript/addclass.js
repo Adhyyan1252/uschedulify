@@ -12,6 +12,11 @@ function addClass() {
 	document.getElementById("addedClasses").appendChild(newItem)
 }
 
+function deleteClasses() {
+	coursesraw = "";
+	document.getElementById("addedClasses").innerHTML = "";
+}
+
 function validate(item) {
 	if(!item) {
 		alert("Please input a class name.")
