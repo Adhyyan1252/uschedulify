@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,28 +35,31 @@ public class ScheduleRequestServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-		System.out.println("entering schedule request servlet");
 		String coursesraw = req.getParameter("coursesraw"); // courses seperated by ,
-		
-		System.out.println("courses raw is: " + coursesraw);
-
 		String[] courses = coursesraw.split(",");
-
 		ScheduleMaker sm = new ScheduleMaker();
-
+		
+		ExecutorService executor = Executors.newFixedThreadPool(3);
+		
+		ArrayList<WebScraper> webscrapers = new ArrayList<WebScraper>();
 		for(int i = 0; i < courses.length ; i++) {
 			String[] temppair = courses[i].split(" ");
+			webscrapers.add(new WebScraper(temppair[0], temppair[1]));
+			executor.execute(webscrapers.get(i));
+		}
+		executor.shutdown();
+		while (!executor.isTerminated()) { Thread.yield(); }
+		
+		for(int i = 0; i < courses.length ; i++) {
 			Course tempCourse;
 			try {
-				tempCourse = WebScraper.getCourse(temppair[0], temppair[1]);
+				tempCourse = webscrapers.get(i).courses;
 				sm.addCourse(tempCourse);
 			} catch (Exception e) {
 				System.out.println("Couldn't find course");
 				e.printStackTrace();
 			}
 		}
-		
 		
 		sm.generateSchedule();
 		ArrayList<Schedule> genSchedules = sm.getSchedules(2); 

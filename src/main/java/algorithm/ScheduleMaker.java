@@ -13,25 +13,6 @@ import uscapi.WebScraper;
 
 public class ScheduleMaker {
 	
-	public static void main(String[] args) {
-		ScheduleMaker sm = new ScheduleMaker();
-		
-		try {
-			sm.addCourse(WebScraper.getCourse("CSCI", "102"));
-			//sm.addCourse(WebScraper.getCourse("CSCI", "109"));
-			sm.addCourse(WebScraper.getCourse("CSCI", "201"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		int gen = sm.generateSchedule();
-		System.out.println(gen);
-		sm.sortClasses();
-		ArrayList<Schedule> schedules = sm.getSchedules(5);
-		for(Schedule s : schedules)
-			System.out.println(s.detailedInfo());
-	}
-	
-	
 	private ArrayList<Course> courses;
 	private ArrayList<Schedule> schedules; 
 	private ArrayList<Section> stack;

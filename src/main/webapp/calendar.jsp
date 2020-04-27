@@ -57,6 +57,10 @@
   <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     <div class="cd-schedule__timeline">
       <ul>
+     	<li><span>8:00</span></li>
+     	<li><span>8:30</span></li>
+      	<li><span>9:00</span></li>
+      	<li><span>9:30</span></li>
         <li><span>10:00</span></li>
         <li><span>10:30</span></li>
         <li><span>11:00</span></li>

@@ -12,11 +12,10 @@ public class DatabaseConnector {
 	//[PRIMARY FUNCTION: TO CONNECT TO DATABASE]
 	public static Connection connectToDatabase() {
 		try {
-			if(connection != null){
-				connection.close();
+			if (connection == null || connection.isClosed()) {
+				connection = DriverManager.getConnection("jdbc:mysql://us-cdbr-iron-east-01.cleardb.net:3306/heroku_15f10f75c7431e6?user=b5a203584b9d69&password=205de108&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC"); // URI - Uniform Resource Identifier
+				return connection;
 			}
-			connection = DriverManager.getConnection("jdbc:mysql://us-cdbr-iron-east-01.cleardb.net:3306/heroku_15f10f75c7431e6?user=b5a203584b9d69&password=205de108&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC"); // URI - Uniform Resource Identifier
-			return connection;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -98,7 +97,6 @@ public class DatabaseConnector {
 			int scheduleID;
 			if(rs.next()) { scheduleID = rs.getInt(1); } 
 			else { throw new Exception("NO SCHEDULE ID RETURNED"); }
-			System.out.println(scheduleID);
 			
 			//[ADDING TO LINKER TABLE]
 			for (int i = 0; i < schedule.sections.size(); i++) {
@@ -106,7 +104,6 @@ public class DatabaseConnector {
 				preps.setInt(1, scheduleID);
 				preps.setString(2, schedule.sections.get(i).sectionID);
 				
-				System.out.println(scheduleID+ ", " + schedule.sections.get(i).sectionID);
 				preps.executeUpdate();
 			}
 			rs.close();
@@ -180,8 +177,7 @@ public class DatabaseConnector {
 					String alldays = innerrs.getString("days");
 					
 					if (innerrs.getString("startTime") != null && innerrs.getString("endTime") != null) {
-						System.out.println(innerrs.getString("startTime"));
-						System.out.println(innerrs.getString("endTime"));
+						
 						String start_time = innerrs.getString("startTime");
 						String end_time = innerrs.getString("endTime");
 						String[] arrstart = start_time.split(":");
@@ -215,7 +211,6 @@ public class DatabaseConnector {
 						sections.add(section);
 					}
 					else {
-						System.out.println("NULL VALUE");
 					}
 				}
 			}		
