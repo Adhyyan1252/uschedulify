@@ -24,7 +24,7 @@ public class DatabaseConnector {
 	}
 	
 	public static void pushSection(Section section) {
-		 connectToDatabase();
+		connectToDatabase();
 
 		PreparedStatement toinsert = null;
 		try {
@@ -76,6 +76,18 @@ public class DatabaseConnector {
 		} catch (Exception e) { e.printStackTrace(); }
 		return "";
 	}
+	
+	public static void removeFromDatabase(int scheduleID, int userID) {
+		connectToDatabase(); 
+		try {
+			PreparedStatement preps = null;
+			preps = connection.prepareStatement("UPDATE schedules SET saved = 0 WHERE scheduleID = ? AND userID = ?");	
+			preps.setInt(1, scheduleID);
+			preps.setInt(2, userID);
+			preps.executeUpdate();
+		} catch (Exception e) { e.printStackTrace(); }
+	}
+	
 	//[PRIMARY FUNCTION: SET SCHEDULE IN MYSQL DATABASE]
 	public static int setSchedule(Schedule schedule, int userID) {
 		//[SETUP & ENSURING CONNECTION EXISTS]

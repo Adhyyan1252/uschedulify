@@ -10,8 +10,7 @@
     	function loadSched(){
 	    		loadSavedCourses();
    		}
-		</script>
-      
+		</script>      
     </head>
     <body onload = "loadSched()">
         <header>
@@ -21,9 +20,8 @@
             <div class="home-container">
                 <div class="saved-sch" id = "savedsch">
                     <h1>saved schedules</h1>
-                   <!--  <button type="button" onclick = "removeAllSaved()"> Remove Saved Classes </button> -->
                 </div>
-                <div class = "g-sch"><h1>Generated Schedules</h1> </div>
+                <div class = "g-sch"><h1>generated schedules</h1> </div>
                 <div class="create-sch">
                     <h1>create a schedule</h1>
                     <div class="add-a-class">

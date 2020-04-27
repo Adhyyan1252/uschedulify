@@ -23,13 +23,21 @@ function validate(item) {
 	
 }
 
+function deleteMap(index){
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("GET","DeleteServlet?ID=" + index, false);
+	xhttp.send();
+	window.location.href = "home.jsp";
+}
+
+
 function loadSavedCourses() {
 	var xhttp = new XMLHttpRequest();
 	xhttp.open("GET","SavedServlet", false);
 	xhttp.send();
 	var arr = xhttp.responseText.trim().split("\n"); 
 	if (xhttp.responseText.trim() == "") {
-		document.getElementById("savedsch").innerHTML = "<h1>No Saved Schedules</h1>";
+		document.getElementById("savedsch").innerHTML = "<h1>no saved schedules</h1>";
 	}
 	else {
 		for(var i = 0; i < arr.length; i++){
@@ -39,7 +47,17 @@ function loadSavedCourses() {
 			newItem.setAttribute("style", "width:250px");
 			newItem.setAttribute("onclick", "showMap('" + arr[i] + "', 'true')");
 			newItem.innerHTML = arr[i];
-			document.getElementsByClassName("saved-sch")[0].appendChild(newItem);		
+			var removeItem = document.createElement("BUTTON");
+			removeItem.setAttribute("type", "button");
+			removeItem.setAttribute("class", "button");
+			removeItem.setAttribute("style", "width:250px");
+			removeItem.setAttribute("onclick", "deleteMap('" + arr[i] + "')");
+			removeItem.innerHTML = "remove";
+			var newDiv = document.createElement("DIV");
+			newDiv.setAttribute("class", "newdiv");
+			newDiv.appendChild(newItem);
+			newDiv.appendChild(removeItem);
+			document.getElementsByClassName("saved-sch")[0].appendChild(newDiv);		
 		}
 	}
 	return false;

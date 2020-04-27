@@ -23,22 +23,15 @@ import com.google.gson.Gson;
 import database.DatabaseConnector;
 
 @WebServlet(
-        name = "SaveScheduleDatabase", 
-        urlPatterns = {"/SaveScheduleDatabase"}
+        name = "DeleteServlet", 
+        urlPatterns = {"/DeleteServlet"}
     )
-public class SaveScheduleDatabase extends HttpServlet {
+public class DeleteServlet extends HttpServlet {
 	
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
-    		String sid = req.getParameter("id");
-    		int scheduleID = -1;
-    		if (sid != null) { scheduleID = Integer.parseInt(sid); }
-    		int userID = (Integer) req.getSession().getAttribute("userID");
-    		String response = DatabaseConnector.saveToDatabase(scheduleID, userID);
-    		PrintWriter out = resp.getWriter();
-    		out.println(response);
-    		out.flush();
-    		out.close();
+    protected void service(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+    		int ID = Integer.parseInt((String)req.getParameter("ID"));
+    		DatabaseConnector.removeFromDatabase(ID, (Integer) req.getSession().getAttribute("userID"));
     }
-    
 }
