@@ -1,5 +1,7 @@
 package servlet;
 import algorithm.Schedule;
+import algorithm.Section;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -35,7 +37,12 @@ public class CalendarServlet extends HttpServlet {
     		Gson gson = new Gson();
     		PrintWriter out = resp.getWriter();
     		out.println(gson.toJson(currsch));
-    		System.out.println(gson.toJson(currsch));
+    		System.out.println();
+    		System.out.println(currsch.detailedInfo());
+    		for (Section section: currsch.sections) {
+    			System.out.println(section.toString());
+    		}
+    		System.out.println();
     		out.flush();
     		out.close();
     		

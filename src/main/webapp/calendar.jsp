@@ -5,15 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script>document.getElementsByTagName("html")[0].className += " js";</script>
   <link rel="stylesheet" href="css/calendarCSS.css">
+
   <title>Schedule Template | CodyHouse</title>
+  <style>
+		#container {
+			height: 100px;
+		}
+		
+  		header {
+			font: bold 13px Arial, Helvetica, sans-serif;
+    		line-height: 1.6em;
+		    background-color:#990000;
+		    padding-top:55px;
+		    padding-left:30px;
+		    padding-bottom:10px;
+		    width:100%;	
+		}
+		
+		.highlight{
+		    color:#FFCC00;
+		}
+		
+		h1 {
+			color: #FFF;
+		}
+  	
+  </style>
 </head>
 <body>
-  <header class="cd-main-header text-center flex flex-column flex-center">
-    <h1 class="text-xl">USChedulify| SChedule</h1>
-  </header>
+  	<header>
+        <h1> <span class="highlight">usc</span>hedulify - <span class="highlight">hello!</span></h1>
+     </header>
   <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     <div class="cd-schedule__timeline">
       <ul>
+      	<li><span>08:00</span></li>
+      	<li><span>08:30</span></li>
         <li><span>09:00</span></li>
         <li><span>09:30</span></li>
         <li><span>10:00</span></li>
@@ -33,6 +60,12 @@
         <li><span>17:00</span></li>
         <li><span>17:30</span></li>
         <li><span>18:00</span></li>
+        <li><span>18:30</span></li>
+        <li><span>19:00</span></li>
+        <li><span>19:30</span></li>
+        <li><span>20:00</span></li>
+        <li><span>20:30</span></li>
+        <li><span>21:00</span></li>
       </ul>
     </div> <!-- .cd-schedule__timeline -->
   
@@ -83,7 +116,6 @@
   
     <div class="cd-schedule__cover-layer"></div>
   </div> <!-- .cd-schedule -->
-
   
   <script>
 	 function showMap(){
@@ -98,15 +130,28 @@
 		readSchedule(sched);
 		
 	}
+	 
+	 
 	
 	function readSchedule(schedule){
 		const sections = schedule["sections"];
+		var classesfound = [];
+		
 		for( var i = 0; i<sections.length; i++){
 			const className = sections[i]["classname"];
 			const majorName = sections[i]["majorname"];
 			const timings = sections[i]["timing"];
-			console.log(className);
-			for( var j = 0;timings!=null&&j<timings.length; j++){
+			var index;
+			for (index = 0; index < classesfound.length; index++) {
+				if (classesfound[index] == (className+majorName)) {
+					break;
+				} 
+			}
+			if (index == classesfound.length) {
+				classesfound.push(className+majorName);
+			}
+			
+			for( var j = 0; timings!=null && j<timings.length; j++){
 				console.log("hello");
 				const start = timings[j]["start"];
 				const end = timings[j]["end"];
@@ -116,10 +161,10 @@
 				newEM.setAttribute("class" , "cd-schedule__name");
 				newItem.setAttribute("data-start", start["hour"]+":" +start["min"]);
 				newItem.setAttribute("data-end", end["hour"]+":" +end["min"]);
-				newItem.setAttribute("data-event", "event-1");
+				newItem.setAttribute("data-event", "event-"+(index+1));
 				newItem.setAttribute("href", "#0");
 				tempLI.setAttribute("class", "cd-schedule__event");
-				newEM.innerHTML = majorName + className;
+				newEM.innerHTML = majorName + className + ": " + sections[i]["sectionID"] + "<br>" + sections[i]["type"] + "<br>" + sections[i]["instructor"];
 				newItem.appendChild(newEM);
 				tempLI.appendChild(newItem);
 				document.getElementById("ulday"+start["day"]).appendChild(tempLI);

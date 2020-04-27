@@ -115,6 +115,7 @@ public class DatabaseConnector {
 			while (rs.next()) {
 				String secID = rs.getString("sectionID");
 				PreparedStatement innerst = connection.prepareStatement("SELECT * FROM sections where sectionID = ?");
+				
 				innerst.setString(1, secID);
 				ResultSet innerrs = innerst.executeQuery();
 				
@@ -136,29 +137,47 @@ public class DatabaseConnector {
 					ArrayList<TimeInterval> timings = new ArrayList<TimeInterval>();
 					String alldays = innerrs.getString("days");
 					
-					java.sql.Time start_time = innerrs.getTime("startTime");
-					java.sql.Time end_time = innerrs.getTime("endTime");
-					
-					for (int i = 0; i < alldays.length(); i++) {
-						TimeInterval newTimeInterval = new TimeInterval();
-					
-						Timer startTime = new Timer();
-						Timer endTime = new Timer();
-						startTime.day = alldays.charAt(i)-'0';
-						startTime.hour = start_time.getHours();
-						startTime.min = start_time.getMinutes();
-						endTime.day = alldays.charAt(i)-'0';
-						endTime.hour = end_time.getHours();
-						endTime.min = end_time.getMinutes();
+					if (innerrs.getString("startTime") != null && innerrs.getString("endTime") != null) {
+						System.out.println(innerrs.getString("startTime"));
+						System.out.println(innerrs.getString("endTime"));
+						String start_time = innerrs.getString("startTime");
+						String end_time = innerrs.getString("endTime");
+						String[] arrstart = start_time.split(":");
+						String[] endstart = end_time.split(":");
+				
+						for (int i = 0; alldays != null && i < alldays.length(); i++) {
+							TimeInterval newTimeInterval = new TimeInterval();
 						
-						newTimeInterval.start = startTime;
-						newTimeInterval.end = endTime;
-						timings.add(newTimeInterval);
-					}				
-					section.timing = timings;
-					sections.add(section);
+							Timer startTime = new Timer();
+							Timer endTime = new Timer();
+							
+							startTime.day = alldays.charAt(i)-'0';
+							
+							if (start_time != null && start_time != "") {
+								startTime.hour = Integer.parseInt(arrstart[0]);
+								startTime.min = Integer.parseInt(arrstart[1]);
+							}
+							endTime.day = alldays.charAt(i)-'0';
+							
+							if (end_time != null && end_time != "") {
+	
+								endTime.hour = Integer.parseInt(endstart[0]);
+								endTime.min = Integer.parseInt(endstart[1]);
+							}
+							
+							newTimeInterval.start = startTime;
+							newTimeInterval.end = endTime;
+							timings.add(newTimeInterval);
+						}				
+						section.timing = timings;
+						sections.add(section);
+					}
+					else {
+						System.out.println("NULL VALUE");
+					}
 				}
-			}
+			}		
+			
 		} catch (Exception e) { e.printStackTrace(); }
 		schedule.sections = sections;
 		schedule.userID = userID;

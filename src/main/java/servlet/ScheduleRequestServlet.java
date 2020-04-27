@@ -57,11 +57,11 @@ public class ScheduleRequestServlet extends HttpServlet {
 		
 		
 		sm.generateSchedule();
-		ArrayList<Schedule> genSchedules = sm.getSchedules(5); // hardcoded to 5
+		ArrayList<Schedule> genSchedules = sm.getSchedules(2); 
 		ArrayList<Integer> IDlist = new ArrayList<Integer>();
 		for(Schedule schedule: genSchedules){
 			int ID = DatabaseConnector.setSchedule(schedule);
-			if(ID != -1){
+			if(ID != -1) {
 				IDlist.add(ID);
 			}
 			
