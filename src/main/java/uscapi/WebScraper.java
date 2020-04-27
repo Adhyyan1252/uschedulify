@@ -3,6 +3,8 @@ package uscapi;
 import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.text.Document;
 import javax.swing.text.Element;
@@ -11,16 +13,32 @@ import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 
 import algorithm.Course;
+import algorithm.Schedule;
 import algorithm.Section;
 import algorithm.TimeInterval;
 import algorithm.Timer;
 
-public class WebScraper {
-	public WebScraper()
+public class WebScraper extends Thread {
+	String major;
+	String number;
+	Course courses;
+	public WebScraper(String maj, String num)
 	{
-		
+		major = maj;
+		number = num;
 	}
-	public static void main(String[] args) {
+	
+	public static void main(String args[]) {
+		/*ExecutorService executor = Executors.newFixedThreadPool(3);
+		executor.execute(new WebScraper("CSCI", "201"));
+		executor.execute(new WebScraper("CSCI", "103"));
+		executor.execute(new WebScraper("CSCI", "270"));
+		executor.shutdown();
+		WebScraper a = new WebScraper("CSCI", "201");
+		WebScraper b = new WebScraper("CSCI", "170");
+		WebScraper c = new WebScraper("CSCI", "270");*/
+	}
+	/*public void main(String[] args) {
 //		Course a = null;
 //		Course b = null;
 //		try {
@@ -36,9 +54,9 @@ public class WebScraper {
 	
 		Schedule returnedschedule = DatabaseConnector.retrieveSchedule(31, 11);
 		System.out.println(returnedschedule.detailedInfo());
-	}
+	}*/
 	
-	public static Course AddCourse(String major, String number) throws Exception {
+	public Course AddCourse(String major, String number) throws Exception {
 		ArrayList<Section> sect = new ArrayList<Section>();
 		String address = "https://classes.usc.edu/term-20203/course/" + major + "-" + number + "/";
 		org.jsoup.nodes.Document doc;
@@ -46,7 +64,8 @@ public class WebScraper {
 			doc = Jsoup.connect(address).get();
 			Elements table = doc.select("table[class= sections responsive]");
 			Elements rows = ((Elements) table).get(0).select("tr");
-			for(org.jsoup.nodes.Element row : rows) {
+			for(int i = 0; i < rows.size(); i++) {
+				org.jsoup.nodes.Element row = rows.get(i);
 				if(row.select("td").size() == 10) {
 					String ID = row.select("td").get(0).text();
 					String type_ = row.select("td").get(2).text();
@@ -69,7 +88,7 @@ public class WebScraper {
 		return course;
 	}
 	
-	private static int[] RegisterHelper(String reg) {
+	private int[] RegisterHelper(String reg) {
 		int[] a = new int[2];
 		if(reg.equalsIgnoreCase("closed")){
 			a[0] = -1;
@@ -87,7 +106,7 @@ public class WebScraper {
 		return a;
 	}
 
-	private static ArrayList<TimeInterval> TimeHelper(String time, String day) {
+	private ArrayList<TimeInterval> TimeHelper(String time, String day) {
 		ArrayList<Integer> days = ParseDay(day);
 		ArrayList<TimeInterval> interval = new ArrayList<TimeInterval>();
 		String[] helper = time.split("-");
@@ -112,7 +131,7 @@ public class WebScraper {
 		return interval;
 	}
 	
-	private static int[] ParseTime(String time){
+	private int[] ParseTime(String time){
 		String checker = "";
 		int[] timer = new int[2];
 		String[] separate = time.split(":");
@@ -146,7 +165,7 @@ public class WebScraper {
 		return timer;
 	}
 	
-	private static ArrayList<Integer> ParseDay(String day){
+	private ArrayList<Integer> ParseDay(String day){
 		ArrayList<Integer> days = new ArrayList<Integer>();
 		if(day.equals("MWF")) {
 			days.add(0);
@@ -193,5 +212,12 @@ public class WebScraper {
 		}
 		return days;
 	}
-	
+	public void run() {
+		try {
+			courses = AddCourse(major, number);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
