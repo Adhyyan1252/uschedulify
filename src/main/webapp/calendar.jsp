@@ -53,7 +53,7 @@
 		}
 		
 		.cd-schedule__name {
-			font-size:12px;
+			font-size:16px;
 		}
   </style>
 </head>
@@ -206,7 +206,7 @@
 				newItem.setAttribute("data-event", "event-"+(index+1));
 				newItem.setAttribute("href", "#0");
 				tempLI.setAttribute("class", "cd-schedule__event");
-				newEM.innerHTML = majorName + className + ": " + sections[i]["sectionID"] + "<br>" + sections[i]["type"] + "<br>" + sections[i]["instructor"];
+				newEM.innerHTML = majorName + className + ": " + sections[i]["sectionID"] + " " + sections[i]["type"] + "<br>" + sections[i]["instructor"];
 				newItem.appendChild(newEM);
 				tempLI.appendChild(newItem);
 				document.getElementById("ulday"+start["day"]).appendChild(tempLI);
