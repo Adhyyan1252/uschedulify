@@ -150,18 +150,45 @@ li{
     
 }
 .button{
-	height: auto;
+	height: 35px;
     margin-top:12px;
     width:70%;
     border:2px;
     background-color:#FFFFFF;
-    border-color:#FFCC00;
+    border-color: rgb(173, 173, 173);
     border-style:solid;
     border-radius:8px;
-    font-size: 12px;
+    font-size: 15px;
+    font: Arial, Helvetica, sans-serif;
+    
 }
 
-#removebutton {
+.button:hover {
+	border-color:#FFCC00;
+    cursor: pointer;
+}
+
+.rbutton{
+	height: 35px;
+    margin-top:12px;
+    width:30%;
+    border:2px;
+    color:#fff;
+    background-color:#990000;
+    border-color:#990000;
+    border-style:solid;
+    border-radius:8px;
+    font-size: 15px;
+    font: Arial, Helvetica, sans-serif;
+}
+
+.rbutton:hover {
+    background-color: #5e0000;
+    border-color: #5e0000;
+    cursor: pointer;
+}
+
+/* #removebutton {
 	margin-top:12px;
     width:50%;
     border:2px;
@@ -169,4 +196,4 @@ li{
     border-color:#FFCC00;
     border-style:solid;
     border-radius:8px;
-}
+} */

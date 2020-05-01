@@ -51,11 +51,10 @@ function loadSavedCourses() {
 			newItem.setAttribute("class", "button");
 			newItem.setAttribute("style", "width:250px");
 			newItem.setAttribute("onclick", "showMap('" + arr[i] + "', 'true')");
-			newItem.innerHTML = arr[i];
+			newItem.innerHTML = "schedule " + arr[i];
 			var removeItem = document.createElement("BUTTON");
 			removeItem.setAttribute("type", "button");
-			removeItem.setAttribute("class", "button");
-			removeItem.setAttribute("style", "width:250px");
+			removeItem.setAttribute("class", "rbutton");
 			removeItem.setAttribute("onclick", "deleteMap('" + arr[i] + "')");
 			removeItem.innerHTML = "remove";
 			var newDiv = document.createElement("DIV");
@@ -82,7 +81,7 @@ function genCourses() {
 			newItem.setAttribute("class", "button");
 			newItem.setAttribute("style", "width:250px");
 			newItem.setAttribute("onclick", "showMap('" + arr[i] + "', 'false')");
-			newItem.innerHTML = arr[i];
+			newItem.innerHTML = "schedule " + arr[i];
 			document.getElementsByClassName("g-sch")[0].appendChild(newItem);
 			
 		}
@@ -93,6 +92,7 @@ function genCourses() {
 }
 
 function showMap( Index, param){
+	console.log("test");
 	window.open("calendar.jsp?ID="+Index + "&saved=" + param);
 }
 

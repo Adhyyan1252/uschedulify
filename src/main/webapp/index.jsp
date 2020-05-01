@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USChedulify | Login </title>
+    <title>SChedulify | Login </title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
     <header>
-        <h1> <span class="highlight">usc</span>hedulify</h1>
+        <h1> <span class="highlight">sc</span>hedulify</h1>
     </header>
     <script src="${message}"></script>
-    <section id="login/signup">
+    <section id="loginsignup">
+    	<h1 class="tagline"><span class="yt">sc</span><span class="rt">hedule</span> your classes in a click</h1>
         <div class="container">
             <div class="box">
                 <form name="login" method="POST" action="login">

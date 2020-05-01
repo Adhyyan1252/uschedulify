@@ -6,6 +6,7 @@ body{
     line-height: 1.6em;
     margin:0;
     padding:0;
+    background-image: url('usc-wallpaper-tommy-trojan.jpg');
 }
 
 /* Header */
@@ -28,6 +29,34 @@ header {
 }
 
 /* Login and Sign Up */
+.loginsignup {
+	background-image: url('usc-wallpaper-tommy-trojan.jpg');
+}
+
+.tagline {
+	text-align:center;
+	font-size:30px;
+	margin-top:50px;
+	margin-bottom:0;
+	padding:20px;
+	background-color:#fff;
+	border:2px;
+    border-color: rgb(173, 173, 173);
+    border-radius: 10px;
+    border-style:solid;
+    width:40%;
+    box-sizing:border-box;
+    margin-left:30%;
+    margin-right:30%;
+}
+
+.yt {
+	color:#FFCC00;
+}
+.rt {
+	color:#990000;
+}
+
 .box{
     background-color:#FFF;
     margin:50px;

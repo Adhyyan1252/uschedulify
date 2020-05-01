@@ -6,7 +6,7 @@
   <script>document.getElementsByTagName("html")[0].className += " js";</script>
   <link rel="stylesheet" href="css/calendarCSS.css">
 
-  <title>USChedulify | Schedule Option</title>
+  <title>SChedulify | Schedule Option</title>
   <style>
 		#container {
 			height: 100px;
@@ -18,8 +18,11 @@
 		    background-color:#990000;
 		    padding-top:55px;
 		    padding-left:30px;
-		    padding-bottom:10px;
-		    width:100%;	
+		    padding-bottom:20px;
+		    width:100%;
+		    display:flex;
+		    align-items:flex-end;	
+		    
 		}
 		
 		.highlight{
@@ -28,6 +31,25 @@
 		
 		h1 {
 			color: #FFF;
+		}
+		
+		#sc {
+			height: 35px;
+		    margin-top:12px;
+		    width:150px;
+		    border:2px;
+		    background-color:#FFF;
+			border-color: rgb(173, 173, 173);
+			border-style:solid;
+		    border-radius:8px;
+		    font-size: 15px;
+		    font: Arial, Helvetica, sans-serif;
+		    margin-left:20px;
+		}
+		
+		#sc:hover {
+			border-color:#FFCC00;
+    		cursor: pointer;
 		}
   	
   </style>
@@ -49,9 +71,9 @@
 		}
 	</script>
   	<header>
-        <h1> <span class="highlight">usc</span>hedulify</h1>
+        <h1> <span class="highlight">sc</span>hedulify</h1>
 		<% if (request.getParameter("saved").equals("false")) { %>
-			<button id = "sc" onclick = "saveSchedule()"> Save Class </button>
+			<button id = "sc" onclick = "saveSchedule()"> Save Schedule </button>
 		<% } %>
      </header>
   <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
