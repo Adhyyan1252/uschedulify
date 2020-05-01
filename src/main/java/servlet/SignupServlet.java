@@ -43,8 +43,10 @@ public class SignupServlet extends HttpServlet {
     		try {
     			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
     			messageDigest.update(password.getBytes());
-    	    	passHash = new String(messageDigest.digest());
-    	    	passHash = passHash.substring(0, 10);
+    	    	String temp = new String(messageDigest.digest());
+    	    	for(int i = 0; i < temp.length() && i < 10; i++) {
+    	    		passHash += (char)(temp.charAt(i)%26 + 'a');
+    	    	}
     		} catch (NoSuchAlgorithmException e) {
     			e.printStackTrace();
     		}
