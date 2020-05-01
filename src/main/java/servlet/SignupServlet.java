@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -27,15 +29,24 @@ public class SignupServlet extends HttpServlet {
             throws ServletException, IOException {
     	
     	String userName = req.getParameter("susername");
-    	String passHash = req.getParameter("spassword");
+    	String password = req.getParameter("spassword");
     	String confirmPass = req.getParameter("scpassword");
-    	
-    	
-    	
+
     	try {
     		
-    		if(!passHash.equals(confirmPass)) {
+    		if(!password.equals(confirmPass)) {
     			throw new Exception("javascript/confirmerror.js");
+    		}
+    		
+    		String passHash = ""; 
+        	
+    		try {
+    			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+    			messageDigest.update(password.getBytes());
+    	    	passHash = new String(messageDigest.digest());
+    	    	passHash = passHash.substring(0, 10);
+    		} catch (NoSuchAlgorithmException e) {
+    			e.printStackTrace();
     		}
 
 	    	Connection conn = null; // Establish connection to database

@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @WebServlet(
         name = "MyServlet", 
@@ -26,7 +28,17 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
     	
     	String userName = req.getParameter("lusername");
-    	String passHash = req.getParameter("lpassword");
+    	String stringToEncrypt = req.getParameter("lpassword");
+    	String passHash = "";
+    	MessageDigest messageDigest;
+		try {
+			messageDigest = MessageDigest.getInstance("SHA-256");
+			messageDigest.update(stringToEncrypt.getBytes());
+	    	passHash = new String(messageDigest.digest());
+	    	passHash = passHash.substring(0, 10);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
     	
     	if(userName == null) {
     		resp.sendRedirect("/");
