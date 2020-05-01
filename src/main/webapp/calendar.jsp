@@ -51,7 +51,6 @@
 			border-color:#FFCC00;
     		cursor: pointer;
 		}
-  	
   </style>
 </head>
 <body>
