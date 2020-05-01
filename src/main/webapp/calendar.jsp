@@ -51,6 +51,10 @@
 			border-color:#FFCC00;
     		cursor: pointer;
 		}
+		
+		.cd-schedule__name {
+			font-size:12px;
+		}
   </style>
 </head>
 <body>
