@@ -42,26 +42,27 @@ public class ScheduleRequestServlet extends HttpServlet {
 		ExecutorService executor = Executors.newFixedThreadPool(3);
 		
 		ArrayList<WebScraper> webscrapers = new ArrayList<WebScraper>();
-		for(int i = 0; i < courses.length ; i++) {
-			String[] temppair = courses[i].split(" ");
-			webscrapers.add(new WebScraper(temppair[0], temppair[1]));
-			executor.execute(webscrapers.get(i));
-		}
-		executor.shutdown();
-		while (!executor.isTerminated()) { Thread.yield(); }
-		
-		for(int i = 0; i < courses.length ; i++) {
-			Course tempCourse;
-			try {
+		try {
+			for(int i = 0; i < courses.length ; i++) {
+				String[] temppair = courses[i].split(" ");
+				webscrapers.add(new WebScraper(temppair[0], temppair[1]));
+				executor.execute(webscrapers.get(i));
+			}
+			executor.shutdown();
+			while (!executor.isTerminated()) { Thread.yield(); }
+			
+			for(int i = 0; i < courses.length ; i++) {
+				Course tempCourse;
 				tempCourse = webscrapers.get(i).courses;
 				sm.addCourse(tempCourse);
-			} catch (Exception e) {
-				System.out.println("Couldn't find course");
-				e.printStackTrace();
 			}
+			
+			sm.generateSchedule();
+		}catch (Exception e) {
+			System.out.println("Couldn't find course");
+			e.printStackTrace();
 		}
 		
-		sm.generateSchedule();
 		ArrayList<Schedule> genSchedules = sm.getSchedules(5); 
 		ArrayList<Integer> IDlist = new ArrayList<Integer>();
 		for(Schedule schedule: genSchedules){

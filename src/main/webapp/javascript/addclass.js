@@ -73,6 +73,10 @@ function genCourses() {
 	xhttp.send();
 	
 	var arr = xhttp.responseText.trim().split("\n"); 
+	var ele = document.getElementsByClassName("g-sch")[0];
+	while (ele.childElementCount > 1){
+		ele.removeChild(ele.lastChild);
+	}
 	
 	if (xhttp.responseText.trim() != "") {
 		for(var i = 0; i < arr.length; i++){
@@ -82,7 +86,7 @@ function genCourses() {
 			newItem.setAttribute("style", "width:250px");
 			newItem.setAttribute("onclick", "showMap('" + arr[i] + "', 'false')");
 			newItem.innerHTML = "schedule " + arr[i];
-			document.getElementsByClassName("g-sch")[0].appendChild(newItem);
+			ele.appendChild(newItem);
 			
 		}
 	} else {
